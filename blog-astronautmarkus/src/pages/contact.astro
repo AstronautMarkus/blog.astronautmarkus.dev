@@ -1,0 +1,162 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Contact me - AstronautMarkus"
+  description="Get in touch with me for collaborations, questions, or just to say hi!"
+  image="/img/banner-en.png"
+  imageAlt="AstronautMarkus - Technology Blog"
+  type="website"
+>
+  <section class="section">
+    <div class="container">
+      <img src="/img/defoko.png" alt="Defoko Render" class="render-decoration" />
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content has-text-centered mb-6">
+            <h1 class="title is-2 "><i class="fas fa-paper-plane mr-2 mb-4"></i>Contact Me</h1>
+            <p class="subtitle is-5">
+              I'm always open to discussing new opportunities, collaborations, or just having a chat about technology!
+            </p>
+          </div>
+
+          <div class="columns is-multiline">
+
+            <div class="column is-6">
+              <div class="card contact-card">
+                <div class="card-content has-text-centered">
+                  <div class="mb-4">
+                    <span class="icon is-large has-text-primary">
+                      <i class="fas fa-envelope fa-2x"></i>
+                    </span>
+                  </div>
+                  <h3 class="title is-5">Email</h3>
+                  <p class="subtitle is-6">Drop me a line</p>
+                  <a href="mailto:marcos@reyesandfriends.cl" class="button is-primary is-outlined">
+                    marcos@reyesandfriends.cl
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-6">
+              <div class="card contact-card">
+                <div class="card-content has-text-centered">
+                  <div class="mb-4">
+                    <span class="icon is-large has-text-dark">
+                      <i class="fab fa-github fa-2x"></i>
+                    </span>
+                  </div>
+                  <h3 class="title is-5">GitHub</h3>
+                  <p class="subtitle is-6">Check out my projects</p>
+                  <a href="https://github.com/astronautmarkus" target="_blank" class="button is-dark is-outlined">
+                    @astronautmarkus
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-6">
+              <div class="card contact-card">
+                <div class="card-content has-text-centered">
+                  <div class="mb-4">
+                    <span class="icon is-large has-text-info">
+                      <i class="fab fa-linkedin fa-2x"></i>
+                    </span>
+                  </div>
+                  <h3 class="title is-5">LinkedIn</h3>
+                  <p class="subtitle is-6">Professional network</p>
+                  <a href="https://linkedin.com/in/markusreyes" target="_blank" class="button is-info is-outlined">
+                    Connect with me
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="box mt-6">
+            <div class="content has-text-centered">
+              <h3 class="title is-4">Let's Build Something Amazing Together</h3>
+              <p>
+                Whether you're looking for a developer for your next project, want to collaborate on open source, 
+                or just want to chat about the latest in tech, I'm always excited to connect with fellow enthusiasts.
+              </p>
+              <p class="has-text-weight-semibold mt-4">
+                Response time: Usually within 24 hours ⚡
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .contact-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+  }
+
+  .contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .contact-card .card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .contact-card .button {
+    margin-top: auto;
+    border-width: 2px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .contact-card .button:hover {
+    transform: scale(1.05);
+  }
+
+  .section {
+    min-height: 80vh;
+  }
+
+  .container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 3rem;
+    margin: 2rem auto;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+
+  .render-decoration {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 120px;
+    height: auto;
+    z-index: 10;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      margin: 1rem;
+      padding: 2rem;
+    }
+    
+    .render-decoration {
+      width: 80px;
+      top: -10px;
+      right: -10px;
+    }
+  }
+</style>
