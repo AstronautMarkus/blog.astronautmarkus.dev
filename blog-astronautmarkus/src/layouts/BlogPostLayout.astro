@@ -36,6 +36,17 @@ const bannerImage = new URL(image, siteUrl).href;
 
 const formatDate = (dateString: string) => {
     if (!dateString) return "Date not available";
+    
+    if (dateString.match(/^\d{4}-\d{2}-\d{2}$/)) {
+        const [year, month, day] = dateString.split('-').map(Number);
+        const date = new Date(year, month - 1, day);
+        return date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    }
+    
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
         year: 'numeric', 
