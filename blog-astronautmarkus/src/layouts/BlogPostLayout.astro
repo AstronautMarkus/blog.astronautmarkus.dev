@@ -3,6 +3,7 @@ import Navbar from "../components/navbar.astro";
 import Footer from "../components/footer.astro";
 import Scripts from "../components/scripts.astro";
 import BlogIndex from "../components/blogIndex.astro";
+import SharePost from "../components/sharePost.astro";
 
 const { frontmatter } = Astro.props;
 
@@ -192,6 +193,12 @@ const structuredData = {
                             <div class="content blog-content">
                                 <slot />
                             </div>
+
+                            <SharePost 
+                                title={title}
+                                description={description}
+                                url={canonicalUrl}
+                            />
 
                             <footer class="blog-author-footer mt-5 pt-4">
                                 <div class="media">

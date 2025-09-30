@@ -1,0 +1,115 @@
+---
+interface Props {
+    title: string;
+    description: string;
+    url: string;
+}
+
+const { title, description, url } = Astro.props;
+
+const encodedTitle = encodeURIComponent(title);
+const encodedDescription = encodeURIComponent(description);
+const encodedUrl = encodeURIComponent(url);
+
+const shareUrls = {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+    twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}&via=astronautmarkus`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+    whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
+    telegram: `https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`
+};
+
+import "../css/sharePost.css";
+---
+
+<div class="share-post">
+    <h3 class="share-title has-text-weight-bold mb-3">Share this post</h3>
+    <div class="share-buttons">
+        <a href={shareUrls.facebook} target="_blank" rel="noopener noreferrer" class="share-button facebook" aria-label="Share on Facebook">
+            Share on
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        
+        <a href={shareUrls.twitter} target="_blank" rel="noopener noreferrer" class="share-button x" aria-label="Share on X">
+            Share on
+            <i class="fab fa-x-twitter"></i>
+        </a>
+        
+        <a href={shareUrls.linkedin} target="_blank" rel="noopener noreferrer" class="share-button linkedin" aria-label="Share on LinkedIn">
+            Share on
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+        
+        <a href={shareUrls.whatsapp} target="_blank" rel="noopener noreferrer" class="share-button whatsapp" aria-label="Share on WhatsApp">
+            Share on
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        
+        <a href={shareUrls.telegram} target="_blank" rel="noopener noreferrer" class="share-button telegram" aria-label="Share on Telegram">
+            Share on
+            <i class="fab fa-telegram-plane"></i>
+        </a>
+        
+        <button class="share-button copy-link" data-url={url} aria-label="Copy link to clipboard">
+            Copy Link
+            <i class="fas fa-link"></i>
+        </button>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const copyButtons = document.querySelectorAll('.copy-link');
+        
+        copyButtons.forEach(button => {
+            button.addEventListener('click', async function() {
+                const url = this.getAttribute('data-url') || window.location.href;
+                
+                try {
+                    await navigator.clipboard.writeText(url);
+                    
+                    const originalContent = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i>Copied!';
+                    this.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalContent;
+                        this.classList.remove('copied');
+                    }, 2000);
+                    
+                } catch (err) {
+                    console.error('Failed to copy URL: ', err);
+                    
+                    const textArea = document.createElement('textarea');
+                    textArea.value = url;
+                    textArea.style.position = 'fixed';
+                    textArea.style.left = '-999999px';
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    
+                    try {
+                        document.execCommand('copy');
+                        const originalContent = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i>Copied!';
+                        this.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            this.innerHTML = originalContent;
+                            this.classList.remove('copied');
+                        }, 2000);
+                    } catch (fallbackErr) {
+                        console.error('Fallback copy failed: ', fallbackErr);
+                        this.innerHTML = '<i class="fas fa-times"></i>Failed';
+                        setTimeout(() => {
+                            this.innerHTML = '<i class="fas fa-link"></i>Copy Link';
+                        }, 2000);
+                    }
+                    
+                    document.body.removeChild(textArea);
+                }
+            });
+        });
+    });
+</script>
