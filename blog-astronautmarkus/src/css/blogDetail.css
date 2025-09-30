@@ -92,6 +92,7 @@
     overflow-x: auto;
     padding: 1.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    position: relative;
 }
 
 .blog-content pre code {
@@ -100,6 +101,47 @@
     color: inherit;
     font-size: inherit;
     padding: 0;
+}
+
+/* Copy Button Styles */
+.code-block-container {
+    position: relative;
+}
+
+.copy-button {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: #e2e8f0;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+}
+
+.copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.copy-button:active {
+    transform: translateY(0);
+}
+
+.copy-button.copied {
+    background: #48c774;
+    border-color: #48c774;
+    color: white;
+}
+
+.copy-button .icon {
+    margin-right: 0.25rem;
 }
 
 /* Blockquote Styles */

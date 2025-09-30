@@ -199,5 +199,77 @@ const structuredData = {
         <Footer />
 
         <Scripts />
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const codeBlocks = document.querySelectorAll('.blog-content pre');
+                
+                codeBlocks.forEach((pre, index) => {
+                    const container = document.createElement('div');
+                    container.className = 'code-block-container';
+                    
+                    if (pre.parentNode) {
+                        pre.parentNode.insertBefore(container, pre);
+                        container.appendChild(pre);
+                    }
+                    
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'copy-button';
+                    copyButton.innerHTML = '<span class="icon">📋</span>Copy';
+                    copyButton.setAttribute('aria-label', 'Copy code to clipboard');
+                    copyButton.setAttribute('data-code-index', index.toString());
+                    
+                    container.appendChild(copyButton);
+                    
+                    copyButton.addEventListener('click', async function() {
+                        const code = pre.querySelector('code') || pre;
+                        const textToCopy = code.textContent || '';
+                        
+                        try {
+                            await navigator.clipboard.writeText(textToCopy);
+                            
+                            const originalContent = copyButton.innerHTML;
+                            copyButton.innerHTML = '<span class="icon">✅</span>Copied!';
+                            copyButton.classList.add('copied');
+                            
+                            setTimeout(() => {
+                                copyButton.innerHTML = originalContent;
+                                copyButton.classList.remove('copied');
+                            }, 2000);
+                            
+                        } catch (err) {
+                            console.error('Failed to copy code: ', err);
+                            
+                            const textArea = document.createElement('textarea');
+                            textArea.value = textToCopy;
+                            textArea.style.position = 'fixed';
+                            textArea.style.left = '-999999px';
+                            document.body.appendChild(textArea);
+                            textArea.focus();
+                            textArea.select();
+                            
+                            try {
+                                document.execCommand('copy');
+                                copyButton.innerHTML = '<span class="icon">✅</span>Copied!';
+                                copyButton.classList.add('copied');
+                                
+                                setTimeout(() => {
+                                    copyButton.innerHTML = '<span class="icon">📋</span>Copy';
+                                    copyButton.classList.remove('copied');
+                                }, 2000);
+                            } catch (fallbackErr) {
+                                console.error('Fallback copy failed: ', fallbackErr);
+                                copyButton.innerHTML = '<span class="icon">❌</span>Failed';
+                                setTimeout(() => {
+                                    copyButton.innerHTML = '<span class="icon">📋</span>Copy';
+                                }, 2000);
+                            }
+                            
+                            document.body.removeChild(textArea);
+                        }
+                    });
+                });
+            });
+        </script>
     </body>
 </html>
