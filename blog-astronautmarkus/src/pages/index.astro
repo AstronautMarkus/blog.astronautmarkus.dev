@@ -1,11 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro"
+import "../css/index.css"
 ---
 
 <Layout 
   title="AstronautMarkus Blog - Technology, Programming & Personal Experiences"
   description="Personal blog of Marcos Reyes (AstronautMarkus) about technology, programming, IT solutions, tutorials, and personal experiences in software development."
-  image="/img/penguin.png"
+  image="/img/banner-en.png"
   imageAlt="AstronautMarkus - Technology Blog"
   type="website"
   tags={["technology", "programming", "blog", "tutorials", "software development", "IT", "web development", "marcos reyes", "astronautmarkus"]}
@@ -28,9 +29,10 @@ import Layout from "../layouts/Layout.astro"
           </div>
         </div>
         <div class="column is-half has-text-centered">
-          <figure class="image is-square" style="max-width: 300px; margin: 0 auto;">
-            <img src="/img/penguin.png" alt="Workspace">
+          <figure class="image is-3by4" style="max-height: 450px; margin: 0 auto;">
+            <img src="/img/defoko-draw.png" alt="Defoko Draw illustration" loading="lazy" />
           </figure>
+            <p class="has-text-grey is-italic is-size-6 mt-3">Defoko is used here as a decorative tribute. All rights belong to their respective creators.</p>
         </div>
       </div>
     </div>
@@ -88,7 +90,7 @@ import Layout from "../layouts/Layout.astro"
     </div>
   </section>
 
-  <section class="section has-background-dark">
+  <section class="section explore-container-background">
     <div class="container has-text-centered">
       <h2 class="title is-3 has-text-white">
         Ready to explore?
@@ -97,13 +99,13 @@ import Layout from "../layouts/Layout.astro"
         Join this adventure of continuous learning and discovery in the world of technology.
       </p>
       <div class="buttons is-centered">
-        <a href="/blog" class="button is-white is-large">
+        <a href="/blog" class="button is-info is-large">
           <span class="icon">
             <i class="fas fa-blog"></i>
           </span>
           <span>View posts</span>
         </a>
-        <a href="/contact" class="button is-light is-large">
+        <a href="/contact" class="button is-warning is-large">
           <span class="icon">
             <i class="fas fa-envelope"></i>
           </span>
