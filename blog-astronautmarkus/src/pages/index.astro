@@ -3,6 +3,106 @@ import Layout from "../layouts/Layout.astro"
 ---
 
 <Layout>
-  <h1 class="text-4xl font-bold mb-4">Welcome to My Blog</h1>
-  <p class="text-lg">This is the homepage of my blog built with Astro.</p>
+  <section class="section">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-half">
+          <h2 class="title is-2 has-text-secondary">Greetings, Seekers!</h2>
+          <div class="content is-large">
+            <p>
+              My name is <strong>Marcos, A.K.A AstronautMarkus</strong>, a developer passionate about technology and continuous learning.
+              Here I share my experiences, projects, and knowledge in a space dedicated to the tech community.
+            </p>
+            <p>
+              This blog is designed to be a useful and accessible resource,
+              in a 'Read-only' format, without comments or distractions.
+              However, you can contact me through social media or the contact form if you think an article deserves a deeper discussion.
+            </p>
+          </div>
+        </div>
+        <div class="column is-half has-text-centered">
+          <figure class="image is-square" style="max-width: 300px; margin: 0 auto;">
+            <img src="/img/penguin.png" alt="Workspace">
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-2 has-text-centered has-text-secondary mb-6">
+        What you'll find here
+      </h2>
+      
+      <div class="columns is-multiline">
+        <div class="column is-one-third">
+          <div class="card">
+            <div class="card-content has-text-centered">
+              <div class="block">
+                <span class="icon is-large has-text-info">
+                  <i class="fas fa-code fa-3x"></i>
+                </span>
+              </div>
+              <h3 class="title is-4">IT Tutorials</h3>
+              <p>Step-by-step guides on programming, web development, and tools I use in my daily work.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-one-third">
+          <div class="card has-background-white">
+            <div class="card-content has-text-centered">
+              <div class="block">
+                <span class="icon is-large has-text-primary">
+                  <i class="fas fa-lightbulb fa-3x"></i>
+                </span>
+              </div>
+              <h3 class="title is-4">Experiences</h3>
+              <p>Real stories from projects, mistakes I've learned from, and interesting discoveries.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-one-third">
+          <div class="card has-background-white">
+            <div class="card-content has-text-centered">
+              <div class="block">
+                <span class="icon is-large has-text-warning">
+                  <i class="fas fa-rocket fa-3x"></i>
+                </span>
+              </div>
+              <h3 class="title is-4">Tips & Tricks</h3>
+              <p>Practical advice and tricks that have made my life easier as a developer.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section has-background-dark">
+    <div class="container has-text-centered">
+      <h2 class="title is-3 has-text-white">
+        Ready to explore?
+      </h2>
+      <p class="subtitle is-5 has-text-white-bis mb-5">
+        Join this adventure of continuous learning and discovery in the world of technology.
+      </p>
+      <div class="buttons is-centered">
+        <a href="/blog" class="button is-white is-large">
+          <span class="icon">
+            <i class="fas fa-blog"></i>
+          </span>
+          <span>View posts</span>
+        </a>
+        <a href="/contact" class="button is-light is-large">
+          <span class="icon">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <span>Contact</span>
+        </a>
+      </div>
+    </div>
+  </section>
 </Layout>
