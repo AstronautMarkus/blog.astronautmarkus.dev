@@ -1,4 +1,6 @@
-# AstronautMarkus Blog <img src="https://github.com/user-attachments/assets/682141aa-67e9-47d7-9c20-5ea709b5830d" alt="AstronautMarkus" width="128" height="128" />
+![banner](https://github.com/user-attachments/assets/da65783e-1988-4e51-bc5d-aafe66d81756)
+
+---
 
 Greetings! Welcome to my AstronautMarkus Blog repository. In this repository, I will publish my personal IT experiences, tutorials, and insights on various technology topics.
 
