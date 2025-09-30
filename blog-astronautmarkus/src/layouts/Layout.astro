@@ -13,7 +13,7 @@ const {
     tags = []
 } = Astro.props;
 
-import "../global.css";
+import "../css/global.css";
 
 const currentUrl = new URL(Astro.request.url);
 const canonicalUrl = canonical || currentUrl.href;
