@@ -19,10 +19,12 @@ const {
 
 import "../css/global.css";
 
+const siteUrl = import.meta.env.SITE_URL || "https://blog.astronautmarkus.dev";
+const siteName = import.meta.env.SITE_NAME || "blog.astronautmarkus.dev";
+
 const currentUrl = new URL(Astro.request.url);
-const canonicalUrl = canonical || currentUrl.href;
-const fullImageUrl = new URL(image, currentUrl.origin).href;
-const siteName = "blog.astronautmarkus.dev";
+const canonicalUrl = canonical || new URL(currentUrl.pathname, siteUrl).href;
+const fullImageUrl = new URL(image, siteUrl).href;
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -40,7 +42,7 @@ const structuredData = {
         "name": siteName,
         "logo": {
             "@type": "ImageObject",
-            "url": `${currentUrl.origin}/logo.png`
+            "url": `${siteUrl}/logo.png`
         }
     },
     "url": canonicalUrl,

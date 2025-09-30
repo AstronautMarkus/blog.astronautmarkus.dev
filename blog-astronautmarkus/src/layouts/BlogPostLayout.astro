@@ -26,10 +26,12 @@ import "../css/blogDetail.css";
 
 const finalPublishDate = publishDate || pubDate;
 
+const siteUrl = import.meta.env.SITE_URL || "https://blog.astronautmarkus.dev";
+const siteName = import.meta.env.SITE_NAME || "blog.astronautmarkus.dev";
+
 const currentUrl = new URL(Astro.request.url);
-const canonicalUrl = canonical || currentUrl.href;
-const bannerImage = new URL(image, currentUrl.origin).href;
-const siteName = "blog.astronautmarkus.dev";
+const canonicalUrl = canonical || new URL(currentUrl.pathname, siteUrl).href;
+const bannerImage = new URL(image, siteUrl).href;
 
 const formatDate = (dateString: string) => {
     if (!dateString) return "Date not available";
@@ -57,7 +59,7 @@ const structuredData = {
         "name": siteName,
         "logo": {
             "@type": "ImageObject",
-            "url": `${currentUrl.origin}/logo.png`
+            "url": `${siteUrl}/logo.png`
         }
     },
     "url": canonicalUrl,
