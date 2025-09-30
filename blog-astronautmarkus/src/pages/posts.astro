@@ -2,8 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import "../css/blogsList.css";
 
-// Get all post list
-const allPosts = await Astro.glob("./blogs/*.md");
+// Get all post list using import.meta.glob instead of Astro.glob
+const allPosts = Object.values(await import.meta.glob("./blogs/*.md", { eager: true }));
 const sortedPosts = allPosts.sort(
   (a, b) =>
     new Date(b.frontmatter.publishDate).getTime() -
