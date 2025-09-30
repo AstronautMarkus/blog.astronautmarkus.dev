@@ -314,6 +314,22 @@
     }
 }
 
+.blog-author-footer {
+                border-top: 1px solid #e8e8e8;
+                margin-top: 2rem !important;
+                padding-top: 1rem !important;
+            }
+            
+            .blog-author-footer .media {
+                align-items: center;
+            }
+            
+            .blog-author-footer .image img {
+                width: 48px;
+                height: 48px;
+                object-fit: cover;
+}
+
 /* Print Styles */
 @media print {
     .blog-post {
