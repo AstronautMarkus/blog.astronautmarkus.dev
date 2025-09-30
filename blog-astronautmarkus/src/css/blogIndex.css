@@ -1,0 +1,93 @@
+.table-of-contents {
+        position: fixed;
+        left: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 280px;
+        max-height: 70vh;
+        overflow-y: auto;
+        padding: 1.5rem;
+        background: rgba(250, 250, 250, 0.95);
+        backdrop-filter: blur(10px);
+        border-left: 3px solid #3273dc;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    @media screen and (max-width: 1215px) {
+        .table-of-contents {
+            display: none;
+        }
+    }
+
+    @media screen and (min-width: 1408px) {
+        .table-of-contents {
+            left: calc((100vw - 1152px) / 2 - 300px);
+        }
+    }
+
+    .toc-title {
+        color: #363636;
+        font-size: 1.1rem;
+        border-bottom: 1px solid #dbdbdb;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .toc-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .toc-list li {
+        margin-bottom: 0.5rem;
+    }
+
+    .toc-list a {
+        display: block;
+        padding: 0.25rem 0;
+        color: #4a4a4a;
+        text-decoration: none;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        border-radius: 3px;
+        transition: all 0.2s ease;
+    }
+
+    .toc-list a:hover {
+        color: #3273dc;
+        background-color: rgba(50, 115, 220, 0.1);
+        padding-left: 0.5rem;
+    }
+
+    .toc-list a.active {
+        color: #3273dc;
+        font-weight: 600;
+        background-color: rgba(50, 115, 220, 0.15);
+        padding-left: 0.5rem;
+    }
+
+    .toc-list .toc-h2 { padding-left: 0; }
+    .toc-list .toc-h3 { padding-left: 1rem; }
+    .toc-list .toc-h4 { padding-left: 2rem; }
+    .toc-list .toc-h5 { padding-left: 3rem; }
+    .toc-list .toc-h6 { padding-left: 4rem; }
+
+    .table-of-contents::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .table-of-contents::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .table-of-contents::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 2px;
+    }
+
+    .table-of-contents::-webkit-scrollbar-thumb:hover {
+        background: #a1a1a1;
+    }
