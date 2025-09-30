@@ -200,7 +200,7 @@
 .blog-content hr {
     border: none;
     height: 2px;
-    background: linear-gradient(to right, #3273dc, #48c774, #3273dc);
+    background: #3273dc;
     margin: 3rem 0;
     border-radius: 2px;
 }
@@ -288,22 +288,4 @@
         color: #333 !important;
         text-decoration: underline !important;
     }
-}
-
-/* Blog Footer Styles */
-.blog-footer .box {
-    border-radius: 12px;
-    border: 1px solid #e8e8e8;
-}
-
-.blog-footer .media .title {
-    color: #363636;
-}
-
-.blog-footer .buttons .button {
-    transition: transform 0.2s ease;
-}
-
-.blog-footer .buttons .button:hover {
-    transform: translateY(-2px);
 }
