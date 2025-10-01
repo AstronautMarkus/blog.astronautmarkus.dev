@@ -223,6 +223,71 @@
     display: block;
 }
 
+/* Iframe Styles */
+.blog-content iframe {
+    display: block;
+    margin: 2rem auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e8e8e8;
+    max-width: 100%;
+}
+
+/* Default iframe size */
+.blog-content iframe {
+    width: 800px;
+    height: 450px;
+}
+
+/* YouTube and video embeds */
+.blog-content iframe[src*="youtube.com"],
+.blog-content iframe[src*="youtu.be"],
+.blog-content iframe[src*="vimeo.com"] {
+    width: 800px;
+    height: 450px;
+    aspect-ratio: 16/9;
+}
+
+/* CodePen embeds */
+.blog-content iframe[src*="codepen.io"] {
+    width: 800px;
+    height: 500px;
+}
+
+/* JSFiddle embeds */
+.blog-content iframe[src*="jsfiddle.net"] {
+    width: 800px;
+    height: 500px;
+}
+
+/* GitHub Gist embeds */
+.blog-content iframe[src*="gist.github.com"] {
+    width: 800px;
+    height: 400px;
+}
+
+/* Generic embed container */
+.blog-content .embed-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    margin: 2rem auto;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.blog-content .embed-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 8px;
+}
+
 /* Link Styles */
 .blog-content a {
     color: #3273dc;
@@ -312,7 +377,39 @@
     .blog-content table td {
         padding: 0.5rem;
     }
+    
+    /* Responsive iframe styles */
+    .blog-content iframe {
+        width: 95% !important;
+        max-width: 95% !important;
+        height: auto;
+        min-height: 250px;
+    }
+    
+    /* Responsive video embeds */
+    .blog-content iframe[src*="youtube.com"],
+    .blog-content iframe[src*="youtu.be"],
+    .blog-content iframe[src*="vimeo.com"] {
+        width: 95% !important;
+        height: calc(95vw * 9 / 16) !important;
+        max-height: 300px;
+    }
+    
+    /* Responsive code embeds */
+    .blog-content iframe[src*="codepen.io"],
+    .blog-content iframe[src*="jsfiddle.net"] {
+        width: 95% !important;
+        height: 350px !important;
+    }
+    
+    /* Responsive embed container */
+    .blog-content .embed-container {
+        width: 95%;
+        max-width: 95%;
+    }
 }
+
+/* ...existing code... */
 
 .blog-author-footer {
                 border-top: 1px solid #e8e8e8;
