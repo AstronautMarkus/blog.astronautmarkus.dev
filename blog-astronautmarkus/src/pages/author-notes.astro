@@ -1,0 +1,122 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// Get all author notes using import.meta.glob
+const allNotes = Object.values(await import.meta.glob("./author-notes/*.md", { eager: true }));
+const sortedNotes = allNotes.sort(
+  (a, b) =>
+    new Date(b.frontmatter.date).getTime() -
+    new Date(a.frontmatter.date).getTime(),
+);
+
+// Function to get category icon
+const getCategoryIcon = (category: string): string => {
+  const iconMap: Record<string, string> = {
+    tech: "fas fa-code",
+    update: "fas fa-sync-alt",
+    announcement: "fas fa-bullhorn",
+    personal: "fas fa-user",
+    default: "fas fa-sticky-note"
+  };
+  return iconMap[category?.toLowerCase()] || iconMap.default;
+};
+
+// Function to format date correctly (avoiding timezone issues)
+const formatDate = (dateString: string): string => {
+  if (!dateString) return "Date not available";
+  
+  const [year, month, day] = dateString.split('-').map(Number);
+  const date = new Date(year, month - 1, day); // month is 0-indexed
+  
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long", 
+    day: "numeric",
+  });
+};
+---
+
+<Layout
+  title="Author Notes"
+  description="Read the author's notes and insights about blog development, new features, bug fixes, and more."
+  image="/img/banner-en.png"
+  imageAlt="AstronautMarkus - Technology Blog"
+  type="website"
+>
+  <section class="section">
+    <div class="container">
+      <h1 class="title is-2 has-text-centered has-text-secondary mb-6">
+        <i class="fas fa-sticky-note"></i> Author Notes
+      </h1>
+
+      <div class="columns is-multiline">
+        {
+          sortedNotes.map((note) => (
+            <div class="column is-one-third">
+              <div class="card post-card">
+                <div class="card-image">
+                  <figure class="image is-16by9" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
+                    {note.frontmatter.image ? (
+                      <img src={note.frontmatter.image} alt={note.frontmatter.title || "Note image"} />
+                    ) : (
+                      <span class="icon is-large has-text-white" style="font-size: 3rem;">
+                        <i class={getCategoryIcon(note.frontmatter.category)}></i>
+                      </span>
+                    )}
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-left">
+                      <span class="icon is-large has-text-link">
+                        <i class={getCategoryIcon(note.frontmatter.category)}></i>
+                      </span>
+                    </div>
+                    <div class="media-content">
+                      <p class="title is-5">{note.frontmatter.title || "Untitled Note"}</p>
+                      <p class="subtitle is-6 has-text-grey">
+                        by {note.frontmatter.author || "AstronautMarkus"} •{" "}
+                        {formatDate(note.frontmatter.date)}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="content">
+                    {note.frontmatter.category && (
+                      <div class="tags mb-3">
+                        <span class="tag is-info is-light">
+                          <i class={getCategoryIcon(note.frontmatter.category)} style="margin-right: 0.25rem;"></i>
+                          {note.frontmatter.category}
+                        </span>
+                        <span class="tag is-primary is-light">
+                          {note.frontmatter.type || "author-note"}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <footer class="card-footer" style="padding: 0.5rem;">
+                  <a href={note.url} class="card-footer-item button is-link">
+                    <i class="fas fa-arrow-right mr-2"></i>
+                    Read Note
+                  </a>
+                </footer>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      {
+        sortedNotes.length === 0 && (
+          <div class="has-text-centered">
+            <p class="title is-4 has-text-grey">No author notes found</p>
+            <p class="subtitle has-text-grey">
+              Check back later for new insights!
+            </p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Layout>
