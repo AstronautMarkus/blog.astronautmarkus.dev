@@ -76,9 +76,12 @@ import "../css/blogIndex.css"
             // Smooth scroll behavior
             a.addEventListener('click', function(e) {
                 e.preventDefault();
-                heading.scrollIntoView({
+                const headingRect = heading.getBoundingClientRect();
+                const offsetTop = window.scrollY + headingRect.top + -100;
+                
+                window.scrollTo({
                     behavior: 'smooth',
-                    block: 'start'
+                    top: offsetTop
                 });
                 
                 // Update URL without triggering scroll
@@ -106,7 +109,7 @@ import "../css/blogIndex.css"
             
             headings.forEach((heading, index) => {
                 const rect = heading.getBoundingClientRect();
-                if (rect.top <= 100) {
+                if (rect.top <= 90) {
                     activeIndex = index;
                 }
             });
