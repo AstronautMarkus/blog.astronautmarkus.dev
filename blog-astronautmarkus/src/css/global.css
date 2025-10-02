@@ -53,6 +53,10 @@
   overflow: hidden;
 }
 
+.custom-navbar .navbar-item i {
+  color: white !important;
+}
+
 .custom-navbar .navbar-item:not(.brand)::before {
   content: '';
   position: absolute;
