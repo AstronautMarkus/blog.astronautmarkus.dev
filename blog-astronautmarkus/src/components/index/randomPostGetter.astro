@@ -36,6 +36,9 @@ const truncateText = (text: string, maxLength: number = 150): string => {
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength).trim() + '...';
 };
+
+// Default error image for fallback
+const errorImage = "/img/error-banner.png";
 ---
 
 {postsToShow.map(post => (
@@ -44,11 +47,18 @@ const truncateText = (text: string, maxLength: number = 150): string => {
             <figure class="media-left">
                 <p class="image is-128x128">
                     {post.image ? (
-                        <img src={post.image} alt={post.title} />
+                        <img 
+                            src={post.image} 
+                            alt={post.title}
+                            loading="lazy"
+                            onerror={`this.src='${errorImage}'; this.onerror=null;`}
+                        />
                     ) : (
                         <img 
                             src="/img/wip.gif" 
                             alt={post.title} 
+                            loading="lazy"
+                            onerror={`this.src='${errorImage}'; this.onerror=null;`}
                         />
                     )}
                 </p>
