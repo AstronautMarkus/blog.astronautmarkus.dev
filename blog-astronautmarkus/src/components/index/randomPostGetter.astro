@@ -1,0 +1,70 @@
+---
+const blogPosts = await Astro.glob('../../pages/blogs/*.md');
+
+const validPosts = blogPosts.filter(post => post.frontmatter?.publishDate && post.frontmatter?.title);
+
+// Shuffle posts and take up to 3
+const shuffledPosts = validPosts.sort(() => Math.random() - 0.5).slice(0, 3);
+
+// Create array of 3 elements, filling with WIP if necessary
+const postsToShow = Array.from({ length: 3 }, (_, index) => {
+    if (index < shuffledPosts.length) {
+        const post = shuffledPosts[index];
+        const filename = post.file.split('/').pop()?.replace('.md', '');
+        return {
+            type: 'real',
+            title: post.frontmatter.title,
+            description: post.frontmatter.description || 'No description available',
+            publishDate: post.frontmatter.publishDate,
+            url: `/blogs/${filename}`,
+            image: post.frontmatter.image
+        };
+    } else {
+        return {
+            type: 'wip',
+            title: 'Coming Soon...',
+            description: 'We are working on more amazing content. Come back soon to see new posts!',
+            publishDate: 'Coming Soon',
+            url: '/',
+            image: null
+        };
+    }
+});
+---
+
+{postsToShow.map(post => (
+    <div class="box">
+        <article class="media">
+            <figure class="media-left">
+                <p class="image is-128x128">
+                    {post.image ? (
+                        <img src={post.image} alt={post.title} />
+                    ) : (
+                        <img 
+                            src="/img/wip.gif" 
+                            alt={post.title} 
+                        />
+                    )}
+                </p>
+            </figure>
+            <div class="media-content">
+                <div class="content">
+                    <h3 class="title is-4">{post.title}</h3>
+                    <p class="subtitle is-6">
+                        {post.type === 'wip' ? (
+                            <span class="tag is-warning mt-2">WIP</span>
+                        ) : (
+                            <> <time>{new Date(post.publishDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}</time></>
+                        )}
+                    </p>
+                    <p>{post.description}</p>
+                    {post.type === 'real' ? (
+                        <a href={post.url} class="button is-info is-small">Read more</a>
+                    ) : (
+                        <button class="button is-light is-small" disabled>Coming Soon</button>
+                    )}
+                </div>
+            </div>
+        </article>
+    </div>
+))}

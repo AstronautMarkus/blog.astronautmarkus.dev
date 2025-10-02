@@ -1,6 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro"
 import "../css/index.css"
+
+import CategoriesGetter from "../components/index/categoriesGetter.astro"
+import RecentPosts from "../components/index/recentPosts.astro"
+import RandomPostGetter from "../components/index/randomPostGetter.astro"
+
 ---
 
 <Layout 
@@ -12,105 +17,43 @@ import "../css/index.css"
   tags={["technology", "programming", "blog", "tutorials", "software development", "IT", "web development", "marcos reyes", "astronautmarkus"]}
 >
   <section class="section">
-    <div class="container">
-      <div class="columns is-vcentered">
-        <div class="column is-half">
-          <h2 class="title is-2 has-text-secondary"> <i class="fas fa-home"></i>Greetings, Seekers!</h2>
-          <div class="content is-large">
-            <p>
-              My name is <strong>Marcos, A.K.A AstronautMarkus</strong>, a developer passionate about technology and continuous learning.
-              Here I share my experiences, projects, and knowledge in a space dedicated to the tech community.
-            </p>
-            <p>
-              This blog is designed to be a useful and accessible resource,
-              in a 'Read-only' format, without comments or distractions.
-              However, you can contact me through social media or the contact form if you think an article deserves a deeper discussion.
-            </p>
-          </div>
-        </div>
-        <div class="column is-half has-text-centered">
-          <figure class="image is-3by4" style="max-height: 450px; margin: 0 auto;">
-            <img src="/img/defoko-draw.png" alt="Defoko Draw illustration" loading="lazy" />
-          </figure>
-            <p class="has-text-grey is-italic is-size-6 mt-3">Defoko is used here as a decorative tribute. All rights belong to their respective creators.</p>
-        </div>
-      </div>
+    <div class="banner-index">
+      <img 
+        src="/img/banner-en.png" 
+        alt="Banner AstronautMarkus - Technology Blog"
+      />
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <h2 class="title is-2 has-text-centered has-text-secondary mb-6">
-        What you'll find here
-      </h2>
-      
-      <div class="columns is-multiline">
-        <div class="column is-one-third">
-          <div class="card">
-            <div class="card-content has-text-centered">
-              <div class="block">
-                <span class="icon is-large has-text-info">
-                  <i class="fas fa-code fa-3x"></i>
-                </span>
-              </div>
-              <h3 class="title is-4">IT Tutorials</h3>
-              <p>Step-by-step guides on programming, web development, and tools I use in my daily work.</p>
-            </div>
+      <div class="columns">
+        <div class="column is-8">
+          <div class="content">
+            <h1 class="title is-2">Welcome, travelers!</h1>
+            <p class="subtitle">Welcome to AstronautMarkus blog, a place for technology enthusiasts and curious minds.</p>
+
+            <h1 class="title is-4">Interesting Posts</h1>
+            
+            <RandomPostGetter />
+
           </div>
         </div>
 
-        <div class="column is-one-third">
-          <div class="card">
-            <div class="card-content has-text-centered">
-              <div class="block">
-                <span class="icon is-large has-text-primary">
-                  <i class="fas fa-lightbulb fa-3x"></i>
-                </span>
-              </div>
-              <h3 class="title is-4">Experiences</h3>
-              <p>Real stories from projects, mistakes I've learned from, and interesting discoveries.</p>
+        <div class="column is-4">
+          <div class="box">
+            <h3 class="title is-5">About blog</h3>
+            <div class="content">
+              <p>
+                In this blog you can read articles related to programming, systems administration, networking, IT solutions, tutorials based on my personal experience as a software developer and systems administrator.
+              </p>
             </div>
           </div>
-        </div>
 
-        <div class="column is-one-third">
-          <div class="card">
-            <div class="card-content has-text-centered">
-              <div class="block">
-                <span class="icon is-large has-text-warning">
-                  <i class="fas fa-rocket fa-3x"></i>
-                </span>
-              </div>
-              <h3 class="title is-4">Tips & Tricks</h3>
-              <p>Practical advice and tricks that have made my life easier as a developer.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+          <CategoriesGetter />
 
-  <section class="section explore-container-background">
-    <div class="container has-text-centered">
-      <h2 class="title is-3 has-text-white">
-        Ready to explore?
-      </h2>
-      <p class="subtitle is-5 has-text-white-bis mb-5">
-        Join this adventure of continuous learning and discovery in the world of technology.
-      </p>
-      <div class="buttons is-centered">
-        <a href="/posts" class="button is-info is-large">
-          <span class="icon">
-            <i class="fas fa-blog"></i>
-          </span>
-          <span>View posts</span>
-        </a>
-        <a href="/contact" class="button is-warning is-large">
-          <span class="icon">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <span>Contact</span>
-        </a>
+          <RecentPosts />
+        </div>
       </div>
     </div>
   </section>

@@ -1,0 +1,99 @@
+---
+const blogPosts = await Astro.glob('../../pages/blogs/*.md');
+
+const tagCounts = new Map<string, number>();
+
+blogPosts.forEach(post => {
+    if (post.frontmatter?.tags) {
+        post.frontmatter.tags.forEach((tag: string) => {
+            tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+        });
+    }
+});
+
+const sortedTags = Array.from(tagCounts.entries())
+    .sort(([,a], [,b]) => b - a);
+
+const tagColors = ['is-primary', 'is-info', 'is-success', 'is-warning', 'is-danger', 'is-link'];
+
+const maxVisibleTags = 6;
+const visibleTags = sortedTags.slice(0, maxVisibleTags);
+const hasMoreTags = sortedTags.length > maxVisibleTags;
+---
+
+<div class="box">
+    <h3 class="title is-5"><i class="fas fa-tags"></i> Category List</h3>
+    <div class="field is-grouped is-grouped-multiline">
+        {visibleTags.length > 0 ? (
+            <>
+                {visibleTags.map(([tag, count], index) => (
+                    <div class="control">
+                        <div class="tags has-addons">
+                            <span class={`tag ${tagColors[index % tagColors.length]}`}>{tag}</span>
+                            <span class="tag">{count}</span>
+                        </div>
+                    </div>
+                ))}
+                {hasMoreTags && (
+                    <div class="control">
+                        <button class="button" id="show-all-categories">
+                            Show All ({sortedTags.length})
+                        </button>
+                    </div>
+                )}
+            </>
+        ) : (
+            <div class="content">
+                <p class="has-text-grey">No categories found in posts.</p>
+            </div>
+        )}
+    </div>
+</div>
+
+{hasMoreTags && (
+    <div class="modal" id="categories-modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box" style="position: relative;">
+                <button aria-label="close" id="close-modal" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none;">
+                    <i class="fas fa-times"></i>
+                </button>
+                <p class="title is-5"><i class="fas fa-tags"></i> All Categories</p>
+                <div class="field is-grouped is-grouped-multiline">
+                    {sortedTags.map(([tag, count], index) => (
+                        <div class="control">
+                            <div class="tags has-addons">
+                                <span class={`tag ${tagColors[index % tagColors.length]}`}>{tag}</span>
+                                <span class="tag">{count}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </div>
+)}
+
+<script>
+    const showAllBtn = document.getElementById('show-all-categories');
+    const modal = document.getElementById('categories-modal');
+    const closeBtn = document.getElementById('close-modal');
+    const modalBg = modal?.querySelector('.modal-background');
+
+    showAllBtn?.addEventListener('click', () => {
+        modal?.classList.add('is-active');
+    });
+
+    const closeModal = () => {
+        modal?.classList.remove('is-active');
+    };
+
+    closeBtn?.addEventListener('click', closeModal);
+    modalBg?.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal?.classList.contains('is-active')) {
+            closeModal();
+        }
+    });
+</script>
