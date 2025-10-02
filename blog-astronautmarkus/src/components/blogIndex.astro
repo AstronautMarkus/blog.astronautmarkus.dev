@@ -1,0 +1,143 @@
+---
+import "../css/blogIndex.css"
+---
+
+<div class="table-of-contents is-hidden-touch">
+    <div class="toc-container">
+        <h4 class="toc-title has-text-weight-bold mb-3">Post Contents</h4>
+        <nav class="toc-nav">
+            <ul id="toc-list" class="toc-list">
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<style>
+    
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tocList = document.getElementById('toc-list');
+        const blogContent = document.querySelector('.blog-content');
+        
+        if (!tocList || !blogContent) return;
+
+        // Extract headings from blog content
+        const headings = blogContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        
+        if (headings.length === 0) {
+            const tocElement = document.querySelector('.table-of-contents');
+            if (tocElement && tocElement instanceof HTMLElement) {
+                tocElement.style.display = 'none';
+            }
+            return;
+        }
+
+        // Add Index option at the beginning
+        const indexLi = document.createElement('li');
+        const indexA = document.createElement('a');
+        
+        indexA.href = '#';
+        indexA.textContent = 'Index';
+        indexA.className = 'toc-index';
+        
+        indexA.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove hash and parameters from URL
+            const baseUrl = window.location.pathname;
+            history.pushState(null, '', baseUrl);
+            
+            // Scroll to top
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        indexLi.appendChild(indexA);
+        tocList.appendChild(indexLi);
+
+        // Generate table of contents
+        headings.forEach((heading, index) => {
+            // Create ID if it doesn't exist
+            if (!heading.id) {
+                heading.id = `heading-${index}`;
+            }
+
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            
+            a.href = `#${heading.id}`;
+            a.textContent = heading.textContent;
+            a.className = `toc-${heading.tagName.toLowerCase()}`;
+            
+            // Smooth scroll behavior
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                const headingRect = heading.getBoundingClientRect();
+                const offsetTop = window.scrollY + headingRect.top + -50;
+                
+                window.scrollTo({
+                    behavior: 'smooth',
+                    top: offsetTop
+                });
+                
+                // Update URL without triggering scroll
+                history.pushState(null, '', `#${heading.id}`);
+            });
+
+            li.appendChild(a);
+            tocList.appendChild(li);
+        });
+
+        // Highlight active section on scroll
+        const tocLinks = tocList.querySelectorAll('a');
+        
+        function updateActiveLink() {
+            let activeIndex = -1;
+            
+            // Check if we're at the top of the page
+            if (window.scrollY < 100) {
+                // Remove active class from all links
+                tocLinks.forEach(link => link.classList.remove('active'));
+                // Add active class to Index
+                tocLinks[0].classList.add('active');
+                return;
+            }
+            
+            headings.forEach((heading, index) => {
+                const rect = heading.getBoundingClientRect();
+                if (rect.top <= 90) {
+                    activeIndex = index;
+                }
+            });
+
+            // Remove active class from all links
+            tocLinks.forEach(link => link.classList.remove('active'));
+            
+            // Add active class to current section (offset by 1 for Index)
+            if (activeIndex >= 0 && tocLinks[activeIndex + 1]) {
+                tocLinks[activeIndex + 1].classList.add('active');
+            }
+        }
+
+        // Throttled scroll listener
+        let ticking = false;
+        function onScroll() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    updateActiveLink();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', onScroll);
+        
+        // Initial check
+        updateActiveLink();
+    });
+</script>

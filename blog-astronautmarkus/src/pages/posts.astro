@@ -1,0 +1,117 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../css/blogsList.css";
+
+// Get all post list using import.meta.glob instead of Astro.glob
+const allPosts = Object.values(await import.meta.glob("./blogs/*.md", { eager: true }));
+const sortedPosts = allPosts.sort(
+  (a, b) =>
+    new Date(b.frontmatter.publishDate).getTime() -
+    new Date(a.frontmatter.publishDate).getTime(),
+);
+
+// Function to truncate description
+const truncateDescription = (description: string, maxLength: number = 150): string => {
+  if (!description) return "No description available.";
+  if (description.length <= maxLength) return description;
+  return description.substring(0, maxLength).trim() + "...";
+};
+---
+
+<Layout
+  title="AstronautMarkus Blog - All Posts"
+  description="Explore all posts on the AstronautMarkus blog, covering technology, programming, IT solutions, tutorials, and personal experiences in software development."
+  image="/img/banner-en.png"
+  imageAlt="AstronautMarkus - Personal Blog Banner"
+  type="website"
+  tags={[
+    "technology",
+    "programming",
+    "blog",
+    "tutorials",
+    "software development",
+    "IT",
+    "web development",
+    "marcos reyes",
+    "astronautmarkus",
+  ]}
+>
+  <section class="section">
+    <div class="container">
+      <h1 class="title is-2 has-text-centered has-text-secondary mb-6">
+       <i class="fas fa-newspaper"></i> All Blog Posts
+      </h1>
+
+      <div class="columns is-multiline">
+        {
+          sortedPosts.map((post) => (
+            <div class="column is-one-third">
+              <div class="card post-card">
+                <div class="card-image">
+                  <figure class="image is-16by9">
+                    <img
+                      src={post.frontmatter.image || "/img/16_9-banner-en.png"}
+                      alt={post.frontmatter.imageAlt || post.frontmatter.title || "Blog post image"}
+                      loading="lazy"
+                    />
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-content">
+                      <p class="title is-5">{post.frontmatter.title || "Untitled Post"}</p>
+                      <p class="subtitle is-6 has-text-grey">
+                        by {post.frontmatter.author || "AstronautMarkus"} •{" "}
+                        {post.frontmatter.publishDate ? new Date(
+                          post.frontmatter.publishDate,
+                        ).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        }) : "Date not available"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="content">
+                    <p>{truncateDescription(post.frontmatter.description)}</p>
+
+                    {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
+                      <div class="tags mt-3">
+                        {post.frontmatter.tags.slice(0, 3).map((tag: any) => (
+                          <span class="tag is-link is-light">{tag}</span>
+                        ))}
+                        {post.frontmatter.tags.length > 3 && (
+                          <span class="tag is-grey-light">
+                            +{post.frontmatter.tags.length - 3}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <footer class="card-footer" style="padding: 0.5rem;">
+                  <a href={post.url} class="card-footer-item button is-link">
+                    <i class="fas fa-arrow-right mr-2"></i>
+                    Read More
+                  </a>
+                </footer>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      {
+        sortedPosts.length === 0 && (
+          <div class="has-text-centered">
+            <p class="title is-4 has-text-grey">No posts found</p>
+            <p class="subtitle has-text-grey">
+              Check back later for new content!
+            </p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Layout>
