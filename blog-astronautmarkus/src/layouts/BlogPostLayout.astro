@@ -11,6 +11,7 @@ const {
     title = "Untitled Post",
     description = "No description available.",
     image = "/img/banner-en.png",
+    errorImage = "/img/error-banner.png",
     imageAlt = "Blog Banner Image",
     author = "AstronautMarkus",
     publishDate,
@@ -169,7 +170,11 @@ const structuredData = {
 
                                 <div class="blog-hero-image mb-5">
                                     <figure class="image">
-                                        <img src={image} alt={imageAlt} />
+                                        <img 
+                                            src={image} 
+                                            alt={imageAlt} 
+                                            onerror={`this.src='${errorImage}'; this.onerror=null;`}
+                                        />
                                     </figure>
                                 </div>
 
@@ -238,7 +243,23 @@ const structuredData = {
         <Scripts />
 
         <script>
+            // Image error handling function
+            function handleImageError(img, fallbackSrc) {
+                if (img.src !== fallbackSrc) {
+                    img.src = fallbackSrc;
+                    img.onerror = null;
+                }
+            }
+
+            // Apply error handling to all images in blog content
             document.addEventListener('DOMContentLoaded', function() {
+                const contentImages = document.querySelectorAll('.blog-content img');
+                contentImages.forEach(img => {
+                    img.onerror = function() {
+                        handleImageError(this, '${errorImage}');
+                    };
+                });
+
                 const codeBlocks = document.querySelectorAll('.blog-content pre');
                 
                 codeBlocks.forEach((pre, index) => {
