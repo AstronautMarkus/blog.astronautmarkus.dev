@@ -30,6 +30,12 @@ const postsToShow = Array.from({ length: 3 }, (_, index) => {
         };
     }
 });
+
+// Function to truncate text
+const truncateText = (text: string, maxLength: number = 150): string => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength).trim() + '...';
+};
 ---
 
 {postsToShow.map(post => (
@@ -57,7 +63,7 @@ const postsToShow = Array.from({ length: 3 }, (_, index) => {
                             <> <time>{new Date(post.publishDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}</time></>
                         )}
                     </p>
-                    <p>{post.description}</p>
+                    <p>{truncateText(post.description)}</p>
                     {post.type === 'real' ? (
                         <a href={post.url} class="button is-info is-small">Read more</a>
                     ) : (
