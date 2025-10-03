@@ -2,9 +2,19 @@
 import "../css/blogIndex.css"
 ---
 
-<div class="table-of-contents is-hidden-touch">
+<button class="toc-toggle" aria-label="Toggle table of contents">
+    <i class="fa fa-list-ul toc-toggle-icon toc-icon-open"></i>
+    <i class="fa fa-times toc-toggle-icon toc-icon-close"></i>
+</button>
+
+<div class="table-of-contents">
     <div class="toc-container">
-        <h4 class="toc-title has-text-weight-bold mb-3">Post Contents</h4>
+        <h4 class="toc-title has-text-weight-bold">
+            <span>Table of Contents</span>
+            <button class="toc-close" aria-label="Close table of contents">
+                <i class="fa fa-times"></i>
+            </button>
+        </h4>
         <nav class="toc-nav">
             <ul id="toc-list" class="toc-list">
             </ul>
@@ -12,25 +22,50 @@ import "../css/blogIndex.css"
     </div>
 </div>
 
-<style>
-    
-</style>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const tocToggle = document.querySelector('.toc-toggle');
+        const tocElement = document.querySelector('.table-of-contents');
+        const tocClose = document.querySelector('.toc-close');
         const tocList = document.getElementById('toc-list');
         const blogContent = document.querySelector('.blog-content');
         
-        if (!tocList || !blogContent) return;
+        if (!tocList || !blogContent || !tocToggle || !tocElement || !tocClose) return;
+
+        // Toggle functionality
+        function toggleToc() {
+            const isVisible = tocElement.classList.contains('visible');
+            tocElement.classList.toggle('visible', !isVisible);
+            tocToggle.classList.toggle('active', !isVisible);
+        }
+
+        tocToggle.addEventListener('click', toggleToc);
+        tocClose.addEventListener('click', toggleToc);
+
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && tocElement.classList.contains('visible')) {
+                toggleToc();
+            }
+        });
+
+        // Close when clicking outside (mobile)
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                const clickedElement = e.target as Element;
+                if (!tocElement.contains(clickedElement) && !tocToggle.contains(clickedElement)) {
+                    if (tocElement.classList.contains('visible')) {
+                        toggleToc();
+                    }
+                }
+            }
+        });
 
         // Extract headings from blog content
         const headings = blogContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
         
         if (headings.length === 0) {
-            const tocElement = document.querySelector('.table-of-contents');
-            if (tocElement && tocElement instanceof HTMLElement) {
-                tocElement.style.display = 'none';
-            }
+            tocToggle.style.display = 'none';
             return;
         }
 
@@ -54,6 +89,11 @@ import "../css/blogIndex.css"
                 top: 0,
                 behavior: 'smooth'
             });
+            
+            // Close TOC on mobile after navigation
+            if (window.innerWidth <= 768) {
+                toggleToc();
+            }
         });
 
         indexLi.appendChild(indexA);
@@ -77,7 +117,7 @@ import "../css/blogIndex.css"
             a.addEventListener('click', function(e) {
                 e.preventDefault();
                 const headingRect = heading.getBoundingClientRect();
-                const offsetTop = window.scrollY + headingRect.top + -50;
+                const offsetTop = window.scrollY + headingRect.top - 80;
                 
                 window.scrollTo({
                     behavior: 'smooth',
@@ -86,6 +126,11 @@ import "../css/blogIndex.css"
                 
                 // Update URL without triggering scroll
                 history.pushState(null, '', `#${heading.id}`);
+                
+                // Close TOC on mobile after navigation
+                if (window.innerWidth <= 768) {
+                    toggleToc();
+                }
             });
 
             li.appendChild(a);
@@ -109,7 +154,7 @@ import "../css/blogIndex.css"
             
             headings.forEach((heading, index) => {
                 const rect = heading.getBoundingClientRect();
-                if (rect.top <= 90) {
+                if (rect.top <= 120) {
                     activeIndex = index;
                 }
             });
@@ -139,5 +184,13 @@ import "../css/blogIndex.css"
         
         // Initial check
         updateActiveLink();
+        
+        // Handle resize events
+        window.addEventListener('resize', function() {
+            // Close TOC when switching to desktop view
+            if (window.innerWidth > 768 && tocElement.classList.contains('visible')) {
+                // Keep it open on larger screens
+            }
+        });
     });
 </script>
