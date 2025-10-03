@@ -17,6 +17,18 @@ const truncateDescription = (description: string, maxLength: number = 150): stri
   return description.substring(0, maxLength).trim() + "...";
 };
 
+// Tag colors array (same as categoriesGetter)
+const tagColors = ['is-primary', 'is-info', 'is-success', 'is-warning', 'is-danger', 'is-link'];
+
+// Function to get consistent color for each tag
+const getTagColor = (tag: string): string => {
+  let hash = 0;
+  for (let i = 0; i < tag.length; i++) {
+    hash = tag.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return tagColors[Math.abs(hash) % tagColors.length];
+};
+
 // Default error image for fallback
 const errorImage = "/img/error-banner.png";
 ---
@@ -83,7 +95,7 @@ const errorImage = "/img/error-banner.png";
                     {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
                       <div class="tags mt-3">
                         {post.frontmatter.tags.slice(0, 3).map((tag: any) => (
-                          <span class="tag is-link is-light">{tag}</span>
+                          <span class={`tag ${getTagColor(tag)}`}>{tag}</span>
                         ))}
                         {post.frontmatter.tags.length > 3 && (
                           <span class="tag is-grey-light">
