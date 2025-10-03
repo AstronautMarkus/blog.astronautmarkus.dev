@@ -1,5 +1,4 @@
 ---
-import '../../css/randomPostGetter.css';
 const blogPosts = await Astro.glob('../../pages/blogs/*.md');
 
 const validPosts = blogPosts.filter(post => post.frontmatter?.publishDate && post.frontmatter?.title);
@@ -53,10 +52,10 @@ const truncateDescription = (description: string): string => {
 const errorImage = "/img/error-banner.png";
 ---
 
-<div class="responsive-posts">
+<div class="desktop-posts">
     {postsToShow.map(post => (
-        <div class="post-item">
-            <article class="media desktop-layout">
+        <div class="box">
+            <article class="media">
                 <figure class="media-left">
                     <p class="image is-128x128">
                         {post.image ? (
@@ -83,7 +82,7 @@ const errorImage = "/img/error-banner.png";
                             {post.type === 'wip' ? (
                                 <span class="tag is-warning mt-2">WIP</span>
                             ) : (
-                                <time>{new Date(post.publishDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}</time>
+                                <> <time>{new Date(post.publishDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}</time></>
                             )}
                         </p>
                         <p>{truncateText(post.description)}</p>
@@ -95,8 +94,14 @@ const errorImage = "/img/error-banner.png";
                     </div>
                 </div>
             </article>
+        </div>
+    ))}
+</div>
 
-            <div class="card post-card mobile-layout">
+<div class="mobile-posts columns is-multiline" style="display: none;">
+    {postsToShow.map(post => (
+        <div class="column is-one-third">
+            <div class="card post-card">
                 <div class="card-image">
                     <figure class="image is-16by9">
                         <img
@@ -121,6 +126,7 @@ const errorImage = "/img/error-banner.png";
                             </p>
                         </div>
                     </div>
+
                     <div class="content">
                         <p>{truncateDescription(post.description)}</p>
                         {post.type === 'wip' && (
@@ -146,3 +152,24 @@ const errorImage = "/img/error-banner.png";
         </div>
     ))}
 </div>
+
+<script>
+    function togglePostsDisplay() {
+        const desktopPosts = document.querySelector('.desktop-posts');
+        const mobilePosts = document.querySelector('.mobile-posts');
+        
+        if (window.innerWidth <= 768) {
+            desktopPosts.style.display = 'none';
+            mobilePosts.style.display = 'flex';
+        } else {
+            desktopPosts.style.display = 'block';
+            mobilePosts.style.display = 'none';
+        }
+    }
+
+    // Initial check
+    togglePostsDisplay();
+    
+    // Listen for resize events
+    window.addEventListener('resize', togglePostsDisplay);
+</script>
