@@ -1,3 +1,35 @@
+/* CSS variables for light theme (default) */
+:root {
+    --toc-bg: rgba(250, 250, 250, 0.95);
+    --toc-text: #4a4a4a;
+    --toc-title-color: #363636;
+    --toc-border: #3273dc;
+    --toc-border-bottom: #dbdbdb;
+    --toc-hover-color: #3273dc;
+    --toc-hover-bg: rgba(50, 115, 220, 0.1);
+    --toc-active-bg: rgba(50, 115, 220, 0.15);
+    --toc-shadow: rgba(0, 0, 0, 0.1);
+    --toc-scrollbar-track: #f1f1f1;
+    --toc-scrollbar-thumb: #c1c1c1;
+    --toc-scrollbar-thumb-hover: #a1a1a1;
+}
+
+/* CSS variables for dark theme */
+[data-theme="dark"] {
+    --toc-bg: rgba(45, 45, 45, 0.95);
+    --toc-text: #e0e0e0;
+    --toc-title-color: #f0f0f0;
+    --toc-border: #4a9eff;
+    --toc-border-bottom: #5a5a5a;
+    --toc-hover-color: #4a9eff;
+    --toc-hover-bg: rgba(74, 158, 255, 0.2);
+    --toc-active-bg: rgba(74, 158, 255, 0.25);
+    --toc-shadow: rgba(0, 0, 0, 0.3);
+    --toc-scrollbar-track: #3a3a3a;
+    --toc-scrollbar-thumb: #6a6a6a;
+    --toc-scrollbar-thumb-hover: #8a8a8a;
+}
+
 .table-of-contents {
         position: fixed;
         left: 2rem;
@@ -7,11 +39,11 @@
         max-height: 70vh;
         overflow-y: auto;
         padding: 1.5rem;
-        background: rgba(250, 250, 250, 0.95);
+        background: var(--toc-bg);
         backdrop-filter: blur(10px);
-        border-left: 3px solid #3273dc;
+        border-left: 3px solid var(--toc-border);
         border-radius: 6px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 12px var(--toc-shadow);
         z-index: 1000;
     }
 
@@ -28,9 +60,9 @@
     }
 
     .toc-title {
-        color: #363636;
+        color: var(--toc-title-color);
         font-size: 1.1rem;
-        border-bottom: 1px solid #dbdbdb;
+        border-bottom: 1px solid var(--toc-border-bottom);
         padding-bottom: 0.5rem;
         margin-bottom: 1rem;
     }
@@ -48,7 +80,7 @@
     .toc-list a {
         display: block;
         padding: 0.25rem 0;
-        color: #4a4a4a;
+        color: var(--toc-text);
         text-decoration: none;
         font-size: 0.9rem;
         line-height: 1.4;
@@ -57,15 +89,15 @@
     }
 
     .toc-list a:hover {
-        color: #3273dc;
-        background-color: rgba(50, 115, 220, 0.1);
+        color: var(--toc-hover-color);
+        background-color: var(--toc-hover-bg);
         padding-left: 0.5rem;
     }
 
     .toc-list a.active {
-        color: #3273dc;
+        color: var(--toc-hover-color);
         font-weight: 600;
-        background-color: rgba(50, 115, 220, 0.15);
+        background-color: var(--toc-active-bg);
         padding-left: 0.5rem;
     }
 
@@ -80,14 +112,14 @@
     }
 
     .table-of-contents::-webkit-scrollbar-track {
-        background: #f1f1f1;
+        background: var(--toc-scrollbar-track);
     }
 
     .table-of-contents::-webkit-scrollbar-thumb {
-        background: #c1c1c1;
+        background: var(--toc-scrollbar-thumb);
         border-radius: 2px;
     }
 
     .table-of-contents::-webkit-scrollbar-thumb:hover {
-        background: #a1a1a1;
+        background: var(--toc-scrollbar-thumb-hover);
     }
