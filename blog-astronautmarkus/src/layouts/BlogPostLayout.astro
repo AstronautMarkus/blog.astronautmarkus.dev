@@ -259,7 +259,7 @@ const structuredData = {
                 const contentImages = document.querySelectorAll('.blog-content img');
                 contentImages.forEach(img => {
                     img.onerror = function() {
-                        handleImageError(this, '${errorImage}');
+                        handleImageError(this, '/img/error-banner.png');
                     };
                 });
 
