@@ -1,15 +1,31 @@
+/* CSS variables for light theme (default) */
+:root {
+    --share-bg: white;
+    --share-text: #4a4a4a;
+    --share-border: #ddd;
+    --share-hover-shadow: rgba(0, 0, 0, 0.1);
+    --share-container-border: #e1e1e1;
+    --share-container-bg: #fafafa;
+}
+
+/* CSS variables for dark theme */
+[data-theme="dark"] {
+    --share-bg: #2b2b2b;
+    --share-text: #e0e0e0;
+    --share-border: #404040;
+    --share-hover-shadow: rgba(255, 255, 255, 0.1);
+    --share-container-border: #3a3a3a;
+    --share-container-bg: #1e1e1e;
+}
+
 .share-post {
-    border: 1px solid #e1e1e1;
     border-radius: 8px;
     padding: 1.5rem;
     margin: 2rem 0;
-    background: #fafafa;
+    border: 1px solid var(--share-container-border);
+    background: var(--share-container-bg);
 }
 
-.share-title {
-    color: #4a4a4a;
-    font-size: 1.1rem;
-}
 
 .share-buttons {
     display: flex;
@@ -29,17 +45,18 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-    background: white;
-    color: #4a4a4a;
-    border: 1px solid #ddd;
+    background: var(--share-bg);
+    color: var(--share-text);
+    border: 1px solid var(--share-border);
 }
 
 .share-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px var(--share-hover-shadow);
     text-decoration: none;
 }
 
+/* Specific hover states for each social network */
 .share-button.facebook:hover {
     background: #1877f2;
     color: white;
@@ -50,6 +67,13 @@
     background: #000;
     color: white;
     border-color: #000;
+}
+
+/* In dark theme, X looks better with a dark gray */
+[data-theme="dark"] .share-button.x:hover {
+    background: #1d1d1d;
+    color: white;
+    border-color: #1d1d1d;
 }
 
 .share-button.linkedin:hover {
