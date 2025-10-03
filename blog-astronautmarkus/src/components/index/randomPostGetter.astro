@@ -1,4 +1,5 @@
 ---
+import '../../css/randomPostGetter.css';
 const blogPosts = await Astro.glob('../../pages/blogs/*.md');
 
 const validPosts = blogPosts.filter(post => post.frontmatter?.publishDate && post.frontmatter?.title);
@@ -37,50 +38,111 @@ const truncateText = (text: string, maxLength: number = 150): string => {
     return text.substring(0, maxLength).trim() + '...';
 };
 
+// Function to get tag color (for mobile version)
+const getTagColor = (tag: string): string => {
+    const colors = ['is-primary', 'is-info', 'is-success', 'is-warning', 'is-danger'];
+    return colors[tag.length % colors.length];
+};
+
+// Function to truncate description (for mobile version)
+const truncateDescription = (description: string): string => {
+    return truncateText(description, 120);
+};
+
 // Default error image for fallback
 const errorImage = "/img/error-banner.png";
 ---
 
-{postsToShow.map(post => (
-    <div class="box">
-        <article class="media">
-            <figure class="media-left">
-                <p class="image is-128x128">
-                    {post.image ? (
-                        <img 
-                            src={post.image} 
-                            alt={post.title}
-                            loading="lazy"
-                            onerror={`this.src='${errorImage}'; this.onerror=null;`}
-                        />
-                    ) : (
-                        <img 
-                            src="/img/wip.gif" 
-                            alt={post.title} 
-                            loading="lazy"
-                            onerror={`this.src='${errorImage}'; this.onerror=null;`}
-                        />
-                    )}
-                </p>
-            </figure>
-            <div class="media-content">
-                <div class="content">
-                    <h3 class="title is-4">{post.title}</h3>
-                    <p class="subtitle is-6">
-                        {post.type === 'wip' ? (
-                            <span class="tag is-warning mt-2">WIP</span>
+<div class="responsive-posts">
+    {postsToShow.map(post => (
+        <div class="post-item">
+            <article class="media desktop-layout">
+                <figure class="media-left">
+                    <p class="image is-128x128">
+                        {post.image ? (
+                            <img 
+                                src={post.image} 
+                                alt={post.title}
+                                loading="lazy"
+                                onerror={`this.src='${errorImage}'; this.onerror=null;`}
+                            />
                         ) : (
-                            <> <time>{new Date(post.publishDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}</time></>
+                            <img 
+                                src="/img/wip.gif" 
+                                alt={post.title} 
+                                loading="lazy"
+                                onerror={`this.src='${errorImage}'; this.onerror=null;`}
+                            />
                         )}
                     </p>
-                    <p>{truncateText(post.description)}</p>
-                    {post.type === 'real' ? (
-                        <a href={post.url} class="button is-info is-small">Read more</a>
-                    ) : (
-                        <button class="button is-light is-small" disabled>Coming Soon</button>
-                    )}
+                </figure>
+                <div class="media-content">
+                    <div class="content">
+                        <h3 class="title is-4">{post.title}</h3>
+                        <p class="subtitle is-6">
+                            {post.type === 'wip' ? (
+                                <span class="tag is-warning mt-2">WIP</span>
+                            ) : (
+                                <time>{new Date(post.publishDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}</time>
+                            )}
+                        </p>
+                        <p>{truncateText(post.description)}</p>
+                        {post.type === 'real' ? (
+                            <a href={post.url} class="button is-info is-small">Read more</a>
+                        ) : (
+                            <button class="button is-light is-small" disabled>Coming Soon</button>
+                        )}
+                    </div>
                 </div>
+            </article>
+
+            <div class="card post-card mobile-layout">
+                <div class="card-image">
+                    <figure class="image is-16by9">
+                        <img
+                            src={post.image || "/img/16_9-banner-en.png"}
+                            alt={post.title || "Blog post image"}
+                            loading="lazy"
+                            onerror={`this.src='${errorImage}'; this.onerror=null;`}
+                        />
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-5">{post.title || "Untitled Post"}</p>
+                            <p class="subtitle is-6 has-text-grey">
+                                by AstronautMarkus •{" "}
+                                {post.type === 'wip' ? 'Coming Soon' : new Date(post.publishDate).toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "long", 
+                                    day: "numeric",
+                                })}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <p>{truncateDescription(post.description)}</p>
+                        {post.type === 'wip' && (
+                            <div class="tags mt-3">
+                                <span class="tag is-warning">WIP</span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+                <footer class="card-footer" style="padding: 0.5rem;">
+                    {post.type === 'real' ? (
+                        <a href={post.url} class="card-footer-item button is-link">
+                            <i class="fas fa-arrow-right mr-2"></i>
+                            Read More
+                        </a>
+                    ) : (
+                        <span class="card-footer-item button is-light" style="cursor: not-allowed;">
+                            Coming Soon
+                        </span>
+                    )}
+                </footer>
             </div>
-        </article>
-    </div>
-))}
+        </div>
+    ))}
+</div>
