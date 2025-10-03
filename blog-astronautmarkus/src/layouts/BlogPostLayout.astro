@@ -56,6 +56,9 @@ const formatDate = (dateString: string) => {
     });
 };
 
+// Colores para las etiquetas
+const tagColors = ['is-primary', 'is-info', 'is-success', 'is-warning', 'is-danger', 'is-link'];
+
 const structuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -182,8 +185,8 @@ const structuredData = {
 
                                 {tags && tags.length > 0 && (
                                     <div class="tags">
-                                        {tags.map((tag: string) => (
-                                            <span class="tag is-primary is-light">{tag}</span>
+                                        {tags.map((tag: string, index: number) => (
+                                            <span class={`tag ${tagColors[index % tagColors.length]}`}>{tag}</span>
                                         ))}
                                     </div>
                                 )}
