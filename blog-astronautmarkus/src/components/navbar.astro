@@ -45,7 +45,12 @@
         const themeIcon = document.getElementById('theme-icon');
         const html = document.documentElement;
         
-        const currentTheme = localStorage.getItem('theme') || 'light';
+        // Detect system preference
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const systemTheme = systemPrefersDark ? 'dark' : 'light';
+        
+        // Use saved theme or system preference
+        const currentTheme = localStorage.getItem('theme') || systemTheme;
         html.setAttribute('data-theme', currentTheme);
         updateIcon(currentTheme);
         
