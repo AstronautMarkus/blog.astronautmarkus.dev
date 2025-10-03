@@ -3,157 +3,152 @@ const blogPosts = await Astro.glob('../../pages/blogs/*.md');
 
 const validPosts = blogPosts.filter(post => post.frontmatter?.publishDate && post.frontmatter?.title);
 
-// Shuffle posts and take up to 3
-const shuffledPosts = validPosts.sort(() => Math.random() - 0.5).slice(0, 3);
-
-// Create array of 3 elements, filling with WIP if necessary
-const postsToShow = Array.from({ length: 3 }, (_, index) => {
-    if (index < shuffledPosts.length) {
-        const post = shuffledPosts[index];
-        const filename = post.file.split('/').pop()?.replace('.md', '');
-        return {
-            type: 'real',
-            title: post.frontmatter.title,
-            description: post.frontmatter.description || 'No description available',
-            publishDate: post.frontmatter.publishDate,
-            url: `/blogs/${filename}`,
-            image: post.frontmatter.image
-        };
-    } else {
-        return {
-            type: 'wip',
-            title: 'Coming Soon...',
-            description: 'We are working on more amazing content. Come back soon to see new posts!',
-            publishDate: 'Coming Soon',
-            url: '/',
-            image: null
-        };
-    }
+// Prepare posts data for client-side
+const postsData = validPosts.map(post => {
+    const filename = post.file.split('/').pop()?.replace('.md', '');
+    return {
+        title: post.frontmatter.title,
+        description: post.frontmatter.description || 'No description available',
+        publishDate: post.frontmatter.publishDate,
+        url: `/blogs/${filename}`,
+        image: post.frontmatter.image
+    };
 });
-
-// Function to truncate text
-const truncateText = (text: string, maxLength: number = 150): string => {
-    if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength).trim() + '...';
-};
-
-// Function to get tag color (for mobile version)
-const getTagColor = (tag: string): string => {
-    const colors = ['is-primary', 'is-info', 'is-success', 'is-warning', 'is-danger'];
-    return colors[tag.length % colors.length];
-};
-
-// Function to truncate description (for mobile version)
-const truncateDescription = (description: string): string => {
-    return truncateText(description, 120);
-};
 
 // Default error image for fallback
 const errorImage = "/img/error-banner.png";
 ---
 
-<div class="desktop-posts">
-    {postsToShow.map(post => (
-        <div class="box">
-            <article class="media">
-                <figure class="media-left">
-                    <p class="image is-128x128">
-                        {post.image ? (
-                            <img 
-                                src={post.image} 
-                                alt={post.title}
-                                loading="lazy"
-                                onerror={`this.src='${errorImage}'; this.onerror=null;`}
-                            />
-                        ) : (
-                            <img 
-                                src="/img/wip.gif" 
-                                alt={post.title} 
-                                loading="lazy"
-                                onerror={`this.src='${errorImage}'; this.onerror=null;`}
-                            />
-                        )}
-                    </p>
-                </figure>
-                <div class="media-content">
-                    <div class="content">
-                        <h3 class="title is-4">{post.title}</h3>
-                        <p class="subtitle is-6">
-                            {post.type === 'wip' ? (
-                                <span class="tag is-warning mt-2">WIP</span>
-                            ) : (
-                                <> <time>{new Date(post.publishDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}</time></>
-                            )}
-                        </p>
-                        <p>{truncateText(post.description)}</p>
-                        {post.type === 'real' ? (
-                            <a href={post.url} class="button is-info is-small">Read more</a>
-                        ) : (
-                            <button class="button is-light is-small" disabled>Coming Soon</button>
-                        )}
-                    </div>
-                </div>
-            </article>
-        </div>
-    ))}
+<div class="desktop-posts" id="desktop-posts">
+    <!-- Posts will be rendered by JavaScript -->
 </div>
 
-<div class="mobile-posts columns is-multiline" style="display: none;">
-    {postsToShow.map(post => (
-        <div class="column is-one-third">
-            <div class="card post-card">
-                <div class="card-image">
-                    <figure class="image is-16by9">
-                        <img
-                            src={post.image || "/img/16_9-banner-en.png"}
-                            alt={post.title || "Blog post image"}
-                            loading="lazy"
-                            onerror={`this.src='${errorImage}'; this.onerror=null;`}
-                        />
+<div class="mobile-posts columns is-multiline" id="mobile-posts" style="display: none;">
+    <!-- Posts will be rendered by JavaScript -->
+</div>
+
+<script define:vars={{ postsData, errorImage }}>
+    // Function to truncate text
+    const truncateText = (text, maxLength = 150) => {
+        if (text.length <= maxLength) return text;
+        return text.substring(0, maxLength).trim() + '...';
+    };
+
+    // Function to truncate description (for mobile version)
+    const truncateDescription = (description) => {
+        return truncateText(description, 120);
+    };
+
+    // Function to get 3 random posts or fill with WIP
+    const getRandomPosts = () => {
+        const shuffledPosts = [...postsData].sort(() => Math.random() - 0.5).slice(0, 3);
+        
+        return Array.from({ length: 3 }, (_, index) => {
+            if (index < shuffledPosts.length) {
+                return {
+                    type: 'real',
+                    ...shuffledPosts[index]
+                };
+            } else {
+                return {
+                    type: 'wip',
+                    title: 'Coming Soon...',
+                    description: 'We are working on more amazing content. Come back soon to see new posts!',
+                    publishDate: 'Coming Soon',
+                    url: '/',
+                    image: null
+                };
+            }
+        });
+    };
+
+    // Function to render desktop posts
+    const renderDesktopPosts = (posts) => {
+        const desktopContainer = document.getElementById('desktop-posts');
+        desktopContainer.innerHTML = posts.map(post => `
+            <div class="box">
+                <article class="media">
+                    <figure class="media-left">
+                        <p class="image is-128x128">
+                            <img 
+                                src="${post.image || '/img/wip.gif'}" 
+                                alt="${post.title}"
+                                loading="lazy"
+                                onerror="this.src='${errorImage}'; this.onerror=null;"
+                            />
+                        </p>
                     </figure>
-                </div>
-                <div class="card-content">
-                    <div class="media">
-                        <div class="media-content">
-                            <p class="title is-5">{post.title || "Untitled Post"}</p>
-                            <p class="subtitle is-6 has-text-grey">
-                                by AstronautMarkus •{" "}
-                                {post.type === 'wip' ? 'Coming Soon' : new Date(post.publishDate).toLocaleDateString("en-US", {
-                                    year: "numeric",
-                                    month: "long", 
-                                    day: "numeric",
-                                })}
+                    <div class="media-content">
+                        <div class="content">
+                            <h3 class="title is-4">${post.title}</h3>
+                            <p class="subtitle is-6">
+                                ${post.type === 'wip' ? 
+                                    '<span class="tag is-warning mt-2">WIP</span>' : 
+                                    `<time>${new Date(post.publishDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}</time>`
+                                }
                             </p>
+                            <p>${truncateText(post.description)}</p>
+                            ${post.type === 'real' ? 
+                                `<a href="${post.url}" class="button is-info is-small">Read more</a>` :
+                                '<button class="button is-light is-small" disabled>Coming Soon</button>'
+                            }
                         </div>
                     </div>
-
-                    <div class="content">
-                        <p>{truncateDescription(post.description)}</p>
-                        {post.type === 'wip' && (
-                            <div class="tags mt-3">
-                                <span class="tag is-warning">WIP</span>
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <footer class="card-footer" style="padding: 0.5rem;">
-                    {post.type === 'real' ? (
-                        <a href={post.url} class="card-footer-item button is-link">
-                            <i class="fas fa-arrow-right mr-2"></i>
-                            Read More
-                        </a>
-                    ) : (
-                        <span class="card-footer-item button is-light" style="cursor: not-allowed;">
-                            Coming Soon
-                        </span>
-                    )}
-                </footer>
+                </article>
             </div>
-        </div>
-    ))}
-</div>
+        `).join('');
+    };
 
-<script>
+    // Function to render mobile posts
+    const renderMobilePosts = (posts) => {
+        const mobileContainer = document.getElementById('mobile-posts');
+        mobileContainer.innerHTML = posts.map(post => `
+            <div class="column is-one-third">
+                <div class="card post-card">
+                    <div class="card-image">
+                        <figure class="image is-16by9">
+                            <img
+                                src="${post.image || '/img/16_9-banner-en.png'}"
+                                alt="${post.title || 'Blog post image'}"
+                                loading="lazy"
+                                onerror="this.src='${errorImage}'; this.onerror=null;"
+                            />
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-5">${post.title || 'Untitled Post'}</p>
+                                <p class="subtitle is-6 has-text-grey">
+                                    by AstronautMarkus • ${post.type === 'wip' ? 'Coming Soon' : 
+                                        new Date(post.publishDate).toLocaleDateString("en-US", {
+                                            year: "numeric",
+                                            month: "long", 
+                                            day: "numeric",
+                                        })
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <p>${truncateDescription(post.description)}</p>
+                            ${post.type === 'wip' ? '<div class="tags mt-3"><span class="tag is-warning">WIP</span></div>' : ''}
+                        </div>
+                    </div>
+                    <footer class="card-footer" style="padding: 0.5rem;">
+                        ${post.type === 'real' ? 
+                            `<a href="${post.url}" class="card-footer-item button is-link">
+                                <i class="fas fa-arrow-right mr-2"></i>
+                                Read More
+                            </a>` :
+                            '<span class="card-footer-item button is-light" style="cursor: not-allowed;">Coming Soon</span>'
+                        }
+                    </footer>
+                </div>
+            </div>
+        `).join('');
+    };
+
     function togglePostsDisplay() {
         const desktopPosts = document.querySelector('.desktop-posts');
         const mobilePosts = document.querySelector('.mobile-posts');
@@ -167,9 +162,14 @@ const errorImage = "/img/error-banner.png";
         }
     }
 
-    // Initial check
-    togglePostsDisplay();
-    
+    // Initialize posts when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        const randomPosts = getRandomPosts();
+        renderDesktopPosts(randomPosts);
+        renderMobilePosts(randomPosts);
+        togglePostsDisplay();
+    });
+
     // Listen for resize events
     window.addEventListener('resize', togglePostsDisplay);
 </script>
