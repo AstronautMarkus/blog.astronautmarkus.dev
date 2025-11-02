@@ -1,4 +1,7 @@
-/* Variables CSS para tema claro (por defecto) */
+img{
+    pointer-events: none;
+}
+
 :root {
     --blog-text-primary: #363636;
     --blog-text-secondary: #5a5a5a;
@@ -25,7 +28,6 @@
     --blog-info-bg: #e8f5e8;
 }
 
-/* Variables CSS para tema oscuro */
 [data-theme="dark"] {
     --blog-text-primary: #e0e0e0;
     --blog-text-secondary: #b0b0b0;

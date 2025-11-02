@@ -75,6 +75,7 @@ const errorImage = "/img/error-banner.png";
                                 alt="${post.title}"
                                 loading="lazy"
                                 onerror="this.src='${errorImage}'; this.onerror=null;"
+                                style="pointer-events: none;"
                             />
                         </p>
                     </figure>
@@ -112,6 +113,7 @@ const errorImage = "/img/error-banner.png";
                                 alt="${post.title || 'Blog post image'}"
                                 loading="lazy"
                                 onerror="this.src='${errorImage}'; this.onerror=null;"
+                                style="pointer-events: none;"
                             />
                         </figure>
                     </div>

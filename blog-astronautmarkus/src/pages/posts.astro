@@ -69,6 +69,7 @@ const errorImage = "/img/error-banner.png";
                       alt={post.frontmatter.imageAlt || post.frontmatter.title || "Blog post image"}
                       loading="lazy"
                       onerror={`this.src='${errorImage}'; this.onerror=null;`}
+                      style="pointer-events: none;"
                     />
                   </figure>
                 </div>
