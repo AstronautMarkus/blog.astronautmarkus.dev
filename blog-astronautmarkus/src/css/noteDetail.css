@@ -1,4 +1,8 @@
-/* Variables CSS para tema claro (por defecto) */
+img{
+    pointer-events: none;
+}
+
+
 :root {
     --note-text-primary: #363636;
     --note-text-secondary: #5a5a5a;
@@ -25,7 +29,6 @@
     --note-info-bg: #e8f5e8;
 }
 
-/* Variables CSS para tema oscuro */
 [data-theme="dark"] {
     --note-text-primary: #e0e0e0;
     --note-text-secondary: #b0b0b0;
