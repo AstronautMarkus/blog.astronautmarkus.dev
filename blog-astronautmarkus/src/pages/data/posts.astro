@@ -1,0 +1,23 @@
+---
+const SITE_URL = import.meta.env.SITE_URL;
+const blogPosts = await Astro.glob('../../pages/blogs/*.md');
+
+const validPosts = blogPosts.filter(post => post.frontmatter?.publishDate && post.frontmatter?.title);
+
+const postsData = validPosts.map(post => {
+    const filename = post.file.split('/').pop()?.replace('.md', '');
+    return {
+        title: post.frontmatter.title,
+        description: post.frontmatter.description || 'No description available',
+        publishDate: post.frontmatter.publishDate,
+        url: `${SITE_URL}/blogs/${filename}`,
+        banner_image: post.frontmatter.image,
+        tags: post.frontmatter.tags || [],
+    };
+});
+
+// return data in JSON format
+return new Response(JSON.stringify(postsData), {
+    headers: { 'Content-Type': 'application/json' },
+});
+---
