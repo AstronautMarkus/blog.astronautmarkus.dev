@@ -13,8 +13,26 @@ const postsData = validPosts.map(post => {
         url: `${SITE_URL}/blogs/${filename}`,
         banner_image: post.frontmatter.image,
         tags: post.frontmatter.tags || [],
+        image: post.frontmatter.image,
+        type: 'real'
     };
 });
+
+if (postsData.length < 3) {
+    const wipPost = {
+        title: 'Work In Progress',
+        description: 'Stay tuned! New posts are coming soon.',
+        publishDate: '',
+        url: '#',
+        banner_image: `${SITE_URL}/img/wip.png`,
+        tags: [],
+        image: `${SITE_URL}/img/wip.png`,
+        type: 'wip'
+    };
+    return new Response(JSON.stringify([...postsData, wipPost]), {
+        headers: { 'Content-Type': 'application/json' },
+    });
+}
 
 // return data in JSON format
 return new Response(JSON.stringify(postsData), {
