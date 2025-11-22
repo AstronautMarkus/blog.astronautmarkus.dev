@@ -55,7 +55,7 @@ const formatDate = (dateString: string): string => {
             <div class="column is-one-third">
               <div class="card post-card">
                 <div class="card-image">
-                  <figure class="image is-16by9" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
+                  <figure class="image is-16by9" style="display: flex; align-items: center; justify-content: center;">
                     {note.frontmatter.image ? (
                       <img src={note.frontmatter.image} alt={note.frontmatter.title || "Note image"} />
                     ) : (
@@ -67,11 +67,6 @@ const formatDate = (dateString: string): string => {
                 </div>
                 <div class="card-content">
                   <div class="media">
-                    <div class="media-left">
-                      <span class="icon is-large has-text-link">
-                        <i class={getCategoryIcon(note.frontmatter.category)}></i>
-                      </span>
-                    </div>
                     <div class="media-content">
                       <p class="title is-5">{note.frontmatter.title || "Untitled Note"}</p>
                       <p class="subtitle is-6 has-text-grey">
