@@ -6,3 +6,11 @@
     pointer-events: none;
     user-select: none;
 }
+
+.recent-post:hover{
+    color: #2366d1;
+    border-bottom: 1px solid #2366d1;
+    background-color: rgba(50, 115, 220, 0.1);
+    padding: 0 2px;
+    border-radius: 2px;
+}

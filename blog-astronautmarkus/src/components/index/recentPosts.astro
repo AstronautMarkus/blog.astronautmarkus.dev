@@ -16,7 +16,7 @@ const sortedPosts = blogPosts
                     const filename = post.file.split('/').pop()?.replace('.md', '');
                     return (
                         <li>
-                            <a href={`/blogs/${filename}`}>
+                            <a class="recent-post" href={`/blogs/${filename}`}>
                                 {post.frontmatter.title || filename}
                             </a>
                         </li>
