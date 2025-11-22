@@ -1,7 +1,28 @@
 @import 'bulma/css/bulma.css';
 @import "@fortawesome/fontawesome-free/css/all.css";
 
+.brand-text {
+  transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #fff;
+  position: relative;
+}
 
+.brand-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 3px;
+  background: rgb(128, 160, 225);
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.brand:hover .brand-text::after {
+  width: 100%;
+}
 
 .custom-navbar {
   position: relative;
