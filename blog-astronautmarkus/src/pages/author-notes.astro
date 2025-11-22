@@ -77,17 +77,7 @@ const formatDate = (dateString: string): string => {
                   </div>
 
                   <div class="content">
-                    {note.frontmatter.category && (
-                      <div class="tags mb-3">
-                        <span class="tag is-info is-light">
-                          <i class={getCategoryIcon(note.frontmatter.category)} style="margin-right: 0.25rem;"></i>
-                          {note.frontmatter.category}
-                        </span>
-                        <span class="tag is-primary is-light">
-                          {note.frontmatter.type || "author-note"}
-                        </span>
-                      </div>
-                    )}
+                    {note.frontmatter.description || "No excerpt available."}
                   </div>
                 </div>
                 <footer class="card-footer" style="padding: 0.5rem;">
