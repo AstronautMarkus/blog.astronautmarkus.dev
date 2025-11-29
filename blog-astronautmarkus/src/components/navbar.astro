@@ -6,7 +6,7 @@
     <div class="navbar-brand">
         <a class="brand ml-4" href="/" style="display: flex; align-items: center; gap: 0.5rem;">
             <img src="/img/markus-witchter.png" alt="Markus the Astronaut Witchter" style="height: 36px; border-radius: 50%; object-fit: cover;" />
-            <span class="brand-text">Blog.AstronautMarkusDev</span>
+            <span class="brand-text">Blog.AstronautMarkus.Dev</span>
         </a>
         <a
             role="button"
@@ -54,20 +54,23 @@
         html.setAttribute('data-theme', currentTheme);
         updateIcon(currentTheme);
         
-        themeToggle.addEventListener('click', function() {
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateIcon(newTheme);
-        });
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateIcon(newTheme);
+            });
+        }
         
-        function updateIcon(theme) {
+        function updateIcon(theme: any) {
+            if (!themeIcon) return;
             if (theme === 'dark') {
                 themeIcon.className = 'fas fa-moon';
             } else {
-                themeIcon.className = 'fa-regular fa-lightbulb';
+                themeIcon.className = 'fa-regular fa-sun';
             }
         }
     });
