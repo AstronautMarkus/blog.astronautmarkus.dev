@@ -11,6 +11,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.0.1",
     "astro": "^5.14.1",
-    "bulma": "^1.0.4"
+    "bulma": "^1.0.4",
+    "roboto-fontface": "^0.10.0"
   }
 }

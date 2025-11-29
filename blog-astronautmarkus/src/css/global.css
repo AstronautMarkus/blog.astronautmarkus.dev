@@ -1,5 +1,10 @@
 @import 'bulma/css/bulma.css';
 @import "@fortawesome/fontawesome-free/css/all.css";
+@import 'roboto-fontface/css/roboto/roboto-fontface.css';
+
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+}
 
 .brand-text {
   transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
