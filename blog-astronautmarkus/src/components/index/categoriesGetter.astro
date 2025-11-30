@@ -22,32 +22,20 @@ const tagColors = [
     'bg-purple-800 text-white',
     'bg-pink-700 text-white'
 ];
-
-const maxVisibleTags = 6;
-const visibleTags = sortedTags.slice(0, maxVisibleTags);
-const hasMoreTags = sortedTags.length > maxVisibleTags;
 ---
 
 <div class="shadow p-4 bg-[#c5c1c0] ">
     <h3 class="text-lg font-semibold flex items-center gap-2 mb-4">
-       <i class="hn hn-align-left-solid"></i> Category List
+       <i class="hn hn-tag-solid"></i> Tags
     </h3>
     <div class="flex flex-wrap gap-2">
-        {visibleTags.length > 0 ? (
+        {sortedTags.length > 0 ? (
             <>
-                {visibleTags.map(([tag, count], index) => (
+                {sortedTags.map(([tag, count], index) => (
                     <div class="flex items-center gap-2">
                         <span class={`px-2 py-1  ${tagColors[index % tagColors.length]} text-sm font-medium`}>{tag}</span>
-                        <span class="px-2 py-1 bg-[#ADADAD] text-black font-semibold text-sm">{count}</span>
                     </div>
                 ))}
-                {hasMoreTags && (
-                    <div class="w-full flex justify-center mt-2">
-                        <button class="px-5 py-2 text-base bg-gray-800 text-white font-semibold hover:bg-gray-900 transition shadow-lg cursor-pointer" id="show-all-categories">
-                            Show All Categories
-                        </button>
-                    </div>
-                )}
             </>
         ) : (
             <div class="text-black">
@@ -56,49 +44,3 @@ const hasMoreTags = sortedTags.length > maxVisibleTags;
         )}
     </div>
 </div>
-
-{hasMoreTags && (
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden" id="categories-modal">
-        <div class="bg-[#c5c1c0] shadow p-6 relative w-full max-w-lg mx-4">
-            <button aria-label="close" id="close-modal" class="absolute top-4 right-4 text-black hover:text-gray-900 bg-[#ADADAD] px-2 py-1 font-semibold text-base shadow cursor-pointer border-none">
-                <i class="fas fa-times"></i>
-            </button>
-            <p class="text-lg font-semibold flex items-center gap-2 mb-4">
-                <i class="fas fa-tags"></i> All Categories
-            </p>
-            <div class="flex flex-wrap gap-2">
-                {sortedTags.map(([tag, count], index) => (
-                    <div class="flex items-center gap-2">
-                        <span class={`px-2 py-1 ${tagColors[index % tagColors.length]} text-sm font-medium`}>{tag}</span>
-                        <span class="px-2 py-1 bg-[#ADADAD] text-black font-semibold text-sm">{count}</span>
-                    </div>
-                ))}
-            </div>
-        </div>
-    </div>
-)}
-
-<script>
-    const showAllBtn = document.getElementById('show-all-categories');
-    const modal = document.getElementById('categories-modal');
-    const closeBtn = document.getElementById('close-modal');
-
-    showAllBtn?.addEventListener('click', () => {
-        modal?.classList.remove('hidden');
-    });
-
-    const closeModal = () => {
-        modal?.classList.add('hidden');
-    };
-
-    closeBtn?.addEventListener('click', closeModal);
-    modal?.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !modal?.classList.contains('hidden')) {
-            closeModal();
-        }
-    });
-</script>
