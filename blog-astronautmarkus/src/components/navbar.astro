@@ -6,15 +6,22 @@
         </a>
 
         <button id="navbar-burger" class="md:hidden flex items-center px-2 py-1 text-gray-700 rounded hover:bg-gray-100 transition" aria-label="Open menu">
-            <svg class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
+            <i class="hn hn-bars-solid"></i>
         </button>
 
         <div class="hidden md:flex flex-row items-center gap-4">
-            <a class="text-black hover:underline px-4 py-2 font-semibold" href="/">Home</a>
-            <a class="text-black hover:underline px-4 py-2 font-semibold" href="/posts">Posts</a>
-            <a class="text-black hover:underline px-4 py-2 font-semibold" href="/author-notes">Author Notes</a>
+            <a class="flex items-center gap-2 text-black hover:underline px-4 py-2 font-medium" href="/">
+            <i class="hn hn-home-solid text-lg"></i>
+            <span>Home</span>
+            </a>
+            <a class="flex items-center gap-2 text-black hover:underline px-4 py-2 font-medium" href="/posts">
+            <i class="hn hn-folder-solid text-lg"></i>
+            <span>Posts</span>
+            </a>
+            <a class="flex items-center gap-2 text-black hover:underline px-4 py-2 font-medium" href="/author-notes">
+            <i class="hn hn-pen-solid text-lg"></i>
+            <span>Author Notes</span>
+            </a>
         </div>
     </div>
 
@@ -23,14 +30,24 @@
         style="will-change: transform;"
     >
         <button id="navbar-close" class="absolute top-4 right-4 text-gray-700 hover:bg-gray-100 rounded p-2" aria-label="Close menu">
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
+            <i class="hn hn-times-solid"></i>
         </button>
-        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold" href="/">Home</a>
-        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold" href="/posts">Posts</a>
-        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold" href="/contact">Contact</a>
-        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold" href="/author-notes">Author Notes</a>
+        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/">
+            <i class="hn hn-home-solid text-lg"></i>
+            <span>Home</span>
+        </a>
+        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/posts">
+            <i class="hn hn-folder-solid text-lg"></i>
+            <span>Posts</span>
+        </a>
+        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/contact">
+            <i class="hn hn-envelope-solid text-lg"></i>
+            <span>Contact</span>
+        </a>
+        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/author-notes">
+            <i class="hn hn-pen-solid text-lg"></i>
+            <span>Author Notes</span>
+        </a>
     </div>
 
     <div id="navbar-overlay" class="fixed inset-0 bg-black/30 z-40 hidden md:hidden"></div>

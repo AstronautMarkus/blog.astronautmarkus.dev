@@ -26,36 +26,36 @@ const shareUrls = {
         <a href={shareUrls.facebook} target="_blank" rel="noopener noreferrer"
            class="px-4 py-2 bg-[#ADADAD] text-black font-semibold  flex items-center gap-2 hover:bg-gray-300 transition shadow"
            aria-label="Share on Facebook">
-            <i class="fab fa-facebook-f text-blue-700"></i>
+            <i class="hn hn-facebook-square text-blue-700"></i>
             Facebook
         </a>
         <a href={shareUrls.twitter} target="_blank" rel="noopener noreferrer"
            class="px-4 py-2 bg-[#ADADAD] text-black font-semibold  flex items-center gap-2 hover:bg-gray-300 transition shadow"
            aria-label="Share on X">
-            <i class="fab fa-x-twitter text-black"></i>
+            <i class="hn hn-x"></i>
             X
         </a>
         <a href={shareUrls.linkedin} target="_blank" rel="noopener noreferrer"
            class="px-4 py-2 bg-[#ADADAD] text-black font-semibold  flex items-center gap-2 hover:bg-gray-300 transition shadow"
            aria-label="Share on LinkedIn">
-            <i class="fab fa-linkedin-in text-blue-800"></i>
+            <i class="hn hn-linkedin text-blue-800"></i>
             LinkedIn
         </a>
         <a href={shareUrls.whatsapp} target="_blank" rel="noopener noreferrer"
            class="px-4 py-2 bg-[#ADADAD] text-black font-semibold  flex items-center gap-2 hover:bg-gray-300 transition shadow"
            aria-label="Share on WhatsApp">
-            <i class="fab fa-whatsapp text-green-700"></i>
+            <i class="hn hn-link text-green-700"></i>
             WhatsApp
         </a>
         <a href={shareUrls.telegram} target="_blank" rel="noopener noreferrer"
            class="px-4 py-2 bg-[#ADADAD] text-black font-semibold  flex items-center gap-2 hover:bg-gray-300 transition shadow"
            aria-label="Share on Telegram">
-            <i class="fab fa-telegram-plane text-blue-700"></i>
+            <i class="hn hn-link text-blue-700"></i>
             Telegram
         </a>
         <button class="px-4 py-2 bg-[#ADADAD] text-black font-semibold  flex items-center gap-2 hover:bg-gray-300 transition shadow copy-link cursor-pointer"
                 data-url={url} aria-label="Copy link to clipboard">
-            <i class="fas fa-link"></i>
+            <i class="hn hn-link"></i>
             Copy Link
         </button>
     </div>
@@ -73,7 +73,7 @@ const shareUrls = {
                     await navigator.clipboard.writeText(url);
                     
                     const originalContent = this.innerHTML;
-                    this.innerHTML = '<i class="fas fa-check"></i>Copied!';
+                    this.innerHTML = '<i class="hn hn-check"></i>Copied!';
                     this.classList.add('copied');
                     
                     setTimeout(() => {
