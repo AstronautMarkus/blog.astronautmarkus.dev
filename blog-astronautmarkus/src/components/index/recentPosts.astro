@@ -7,16 +7,18 @@ const sortedPosts = blogPosts
     .slice(0, 5);
 ---
 
-<div class="box">
-    <h3 class="title is-5"><i class="fas fa-rocket"></i> Recent Posts</h3>
-    <div class="content">
+<div class="bg-[#c5c1c0] shadow p-4">
+    <h3 class="text-lg font-semibold flex items-center gap-2 mb-4">
+        Recent Posts
+    </h3>
+    <div>
         {sortedPosts.length > 0 ? (
-            <ul>
+            <ul class="list-disc pl-5 space-y-1">
                 {sortedPosts.map(post => {
                     const filename = post.file.split('/').pop()?.replace('.md', '');
                     return (
                         <li>
-                            <a class="recent-post" href={`/blogs/${filename}`}>
+                            <a class="text-blue-600 font-medium hover:underline" href={`/blogs/${filename}`}>
                                 {post.frontmatter.title || filename}
                             </a>
                         </li>
@@ -24,7 +26,7 @@ const sortedPosts = blogPosts
                 })}
             </ul>
         ) : (
-            <p class="has-text-grey">No posts available yet.</p>
+            <p class="text-gray-500">No posts available yet.</p>
         )}
     </div>
 </div>

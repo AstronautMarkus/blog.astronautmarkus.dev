@@ -1,89 +1,77 @@
-<footer class="footer custom-footer">
-    <div class="container">
-        <div class="columns">
-            <div class="column is-5">
-                <h4 class="title is-5 has-text-white">About This Blog</h4>
-                <p class="has-text-grey-light">
-                    Welcome to my personal blog where I share thoughts on
-                    technology, programming, space exploration, and life
-                    adventures. Join me on this journey!
+<footer class="shadow-lg bg-[#c5c1c0] text-black shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 py-10">
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="flex-1">
+                <h4 class="text-lg font-semibold mb-2">About This Blog</h4>
+                <p class=" text-sm">
+                    Personal tech blog by Marcos Reyes, also known as <strong>AstronautMarkusDev</strong>. Here you'll find tutorials, guides, and experiences about web development, programming, and technology.
                 </p>
             </div>
-            <div class="column is-4">
-                <h4 class="title is-5 has-text-white">Resources</h4>
-                <ul class="footer-links">
-                    <li><a href="/" class="has-text-grey-light"><i class="fas fa-home"></i> Home</a></li>
+            <div class="flex-1">
+                <h4 class="text-lg font-semibold mb-2">Quick Links</h4>
+                <ul class="space-y-2">
                     <li>
-                        <a href="/posts" class="has-text-grey-light"
-                            ><i class="fas fa-newspaper"></i> Posts</a>
+                        <a href="/" class="flex items-center gap-2  hover:text-neutral-100 transition">
+                            <i class="fas fa-home"></i> Home
+                        </a>
                     </li>
                     <li>
-                        <a href="/contact" class="has-text-grey-light"
-                            ><i class="fas fa-envelope"></i> Contact Me</a>
+                        <a href="/posts" class="flex items-center gap-2  hover:text-neutral-100 transition">
+                            <i class="fas fa-newspaper"></i> Posts
+                        </a>
                     </li>
                     <li>
-                        <a href="/author-notes" class="has-text-grey-light"
-                            ><i class="fas fa-sticky-note"></i> Author Notes</a>
+                        <a href="/author-notes" class="flex items-center gap-2  hover:text-neutral-100 transition">
+                            <i class="fas fa-sticky-note"></i> Author Notes
+                        </a>
                     </li>
                 </ul>
             </div>
-            
-            <div class="column is-3">
-                <h4 class="title is-4 has-text-white">Connect</h4>
-                <div class="social-links">
+            <div class="flex-1">
+                <h4 class="text-lg font-semibold mb-2">Connect</h4>
+                <div class="flex gap-3 mt-2">
                     <a
                         href="https://github.com/astronautmarkus"
-                        class="button is-small is-light social-btn"
+                        class="p-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 transition"
                         target="_blank"
                         rel="noopener"
+                        aria-label="GitHub"
                     >
-                        <span class="icon">
-                            <i class="fab fa-github"></i>
-                        </span>
+                        <i class="fab fa-github"></i>
                     </a>
                     <a
                         href="https://linkedin.com/in/markusreyes"
-                        class="button is-small is-link social-btn"
+                        class="p-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 transition"
                         target="_blank"
                         rel="noopener"
+                        aria-label="LinkedIn"
                     >
-                        <span class="icon">
-                            <i class="fab fa-linkedin"></i>
-                        </span>
+                        <i class="fab fa-linkedin"></i>
                     </a>
                     <a
                         href="https://x.com/astronautmarkus"
-                        class="button is-small is-dark social-btn"
+                        class="p-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 transition"
                         target="_blank"
                         rel="noopener"
+                        aria-label="X"
                     >
-                        <span class="icon">
-                            <i class="fab fa-x-twitter"></i>
-                        </span>
-                    </a>
-                    <a
-                        href="mailto:marcos@reyesandfriends.cl"
-                        class="button is-small is-warning social-btn"
-                    >
-                        <span class="icon">
-                            <i class="fas fa-envelope"></i>
-                        </span>
+                        <i class="fab fa-x-twitter"></i>
                     </a>
                 </div>
             </div>
         </div>
-        <hr class="footer-divider" />
-        <div class="columns is-vcentered">
-            <div class="column">
-                <p class="has-text-grey-light">
-                    © {new Date().getFullYear()} Marcos Reyes / AstronautMarkus.
-                    All rights reserved.
+        <hr class="my-8 border-neutral-700" />
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+                <p class="font-medium text-sm">
+                    © {new Date().getFullYear()} AstronautMarkusDev. All rights reserved.
                 </p>
             </div>
-            <div class="column is-narrow">
-                <p class="has-text-grey-light">
-                    Made with <span class="has-text-danger"><i class="fas fa-heart"></i></span> using  <i class="devicon-astro-plain"></i>
-                    & <i class="devicon-bulma-plain colored"></i>
+            <div>
+                <p class=" text-xs flex items-center gap-2">
+                    Made with
+                    <i class="devicon-astro-plain"></i>
+                    & <i class="devicon-tailwindcss-plain"></i>
                 </p>
             </div>
         </div>

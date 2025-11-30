@@ -43,46 +43,47 @@ const formatDate = (dateString: string): string => {
   imageAlt="AstronautMarkus - Technology Blog"
   type="website"
 >
-  <section class="section">
-    <div class="container">
-      <h1 class="title is-2 has-text-centered has-text-secondary mb-6">
-        <i class="fas fa-sticky-note"></i> Author Notes
+  <section class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <h1 class="text-4xl font-bold text-center mb-8 flex items-center justify-center gap-3 mt-8">
+        Author Notes
       </h1>
 
-      <div class="columns is-multiline">
+      <div class="flex flex-wrap -mx-4">
         {
           sortedNotes.map((note) => (
-            <div class="column is-one-third">
-              <div class="card post-card">
-                <div class="card-image">
-                  <figure class="image is-16by9" style="display: flex; align-items: center; justify-content: center;">
-                    {note.frontmatter.image ? (
-                      <img src={note.frontmatter.image} alt={note.frontmatter.title || "Note image"} />
-                    ) : (
+            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+              <div class="bg-[#c5c1c0] shadow-lg overflow-hidden flex flex-col h-full">
+                <div class="relative pb-[56.25%]">
+                  {note.frontmatter.image ? (
+                    <img
+                      src={note.frontmatter.image}
+                      alt={note.frontmatter.title || "Note image"}
+                      loading="lazy"
+                      class="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
+                    />
+                  ) : (
+                    <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800">
                       <span class="icon is-large has-text-white" style="font-size: 3rem;">
                         <i class={getCategoryIcon(note.frontmatter.category)}></i>
                       </span>
-                    )}
-                  </figure>
-                </div>
-                <div class="card-content">
-                  <div class="media">
-                    <div class="media-content">
-                      <p class="title is-5">{note.frontmatter.title || "Untitled Note"}</p>
-                      <p class="subtitle is-6 has-text-grey">
-                        by {note.frontmatter.author || "AstronautMarkus"} •{" "}
-                        {formatDate(note.frontmatter.date)}
-                      </p>
                     </div>
+                  )}
+                </div>
+                <div class="p-6 flex-1 flex flex-col">
+                  <div class="mb-2 text-center">
+                    <p class="text-xl font-semibold text-gray-900">{note.frontmatter.title || "Untitled Note"}</p>
+                    <p class="text-sm text-gray-600">
+                      by {note.frontmatter.author || "AstronautMarkus"} •{" "}
+                      {formatDate(note.frontmatter.date)}
+                    </p>
                   </div>
-
-                  <div class="content">
-                    {note.frontmatter.description || "No excerpt available."}
+                  <div class="flex-1">
+                    <p class="text-gray-800 text-center">{note.frontmatter.description || "No excerpt available."}</p>
                   </div>
                 </div>
-                <footer class="card-footer" style="padding: 0.5rem;">
-                  <a href={note.url} class="card-footer-item button is-link">
-                    <i class="fas fa-arrow-right mr-2"></i>
+                <footer class="px-6 py-3 text-center">
+                  <a href={note.url} class="inline-flex items-center gap-2 text-white bg-gray-800 hover:bg-gray-900 font-semibold px-4 py-2 transition shadow-lg">
                     Read Note
                   </a>
                 </footer>
@@ -94,9 +95,9 @@ const formatDate = (dateString: string): string => {
 
       {
         sortedNotes.length === 0 && (
-          <div class="has-text-centered">
-            <p class="title is-4 has-text-grey">No author notes found</p>
-            <p class="subtitle has-text-grey">
+          <div class="text-center">
+            <p class="text-2xl text-gray-500 font-semibold">No author notes found</p>
+            <p class="text-lg text-gray-400">
               Check back later for new insights!
             </p>
           </div>

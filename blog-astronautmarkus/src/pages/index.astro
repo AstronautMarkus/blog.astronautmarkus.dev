@@ -1,11 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro"
-import "../css/index.css"
 
 import CategoriesGetter from "../components/index/categoriesGetter.astro"
 import RecentPosts from "../components/index/recentPosts.astro"
 import RandomPostGetter from "../components/index/randomPostGetter.astro"
-
 ---
 
 <Layout 
@@ -16,35 +14,43 @@ import RandomPostGetter from "../components/index/randomPostGetter.astro"
   type="website"
   tags={["technology", "programming", "blog", "tutorials", "software development", "IT", "web development", "marcos reyes", "astronautmarkus"]}
 >
-  <section class="section">
-    <div class="banner-index">
+  <section class="hidden md:flex w-full justify-center py-8">
+    <div class="w-full">
       <img 
         src="/img/banner.png" 
         alt="Banner AstronautMarkus - Technology Blog"
+        class="w-full h-auto shadow-lg object-cover"
       />
     </div>
   </section>
 
-  <section class="section">
-    <div class="container">
-      <div class="columns">
-        <div class="column is-8">
-          <div class="content">
-            <h1 class="title is-2">Welcome, travelers!</h1>
-            <p class="subtitle">Welcome to AstronautMarkus blog, a place for technology enthusiasts and curious minds.</p>
+  <section class="flex md:hidden w-full justify-center py-4 mt-12">
+    <div class="w-full max-w-xs mx-auto">
+      <img 
+        src="/img/banner.png" 
+        alt="Banner AstronautMarkus - Technology Blog"
+        class="w-full h-auto shadow-lg object-cover"
+      />
+    </div>
+  </section>
 
-            <h1 class="title is-4">Interesting Posts</h1>
-            
+  <section class="w-full py-8">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex flex-col md:flex-row gap-8">
+        <div class="md:w-2/3 w-full">
+          <div class="mb-8">
+            <h1 class="text-4xl font-bold mb-2">Welcome, travelers!</h1>
+            <p class="text-lg mb-6">Welcome to <strong>AstronautMarkusDev Blog</strong>, your go-to destination for all things technology, programming, and personal experiences in the world of software development and IT solutions. Join me as I share my knowledge, insights, and adventures in this ever-evolving digital landscape.</p>
+            <h2 class="text-xl font-semibold mb-4">Check out these posts, you might find them interesting:</h2>
             <RandomPostGetter />
-
           </div>
         </div>
 
-        <div class="column is-4">
-          <div class="box">
-            <h3 class="title is-5">About blog</h3>
-            <div class="content">
-              <p>
+        <div class="md:w-1/3 w-full flex flex-col gap-6">
+          <div class="bg-[#c5c1c0] shadow p-6">
+            <h3 class="text-lg font-semibold mb-2 text-gray-900">About this blog</h3>
+            <div>
+              <p class="text-gray-700">
                 In this blog you can read articles related to programming, systems administration, networking, IT solutions, tutorials based on my personal experience as a software developer and systems administrator.
               </p>
             </div>

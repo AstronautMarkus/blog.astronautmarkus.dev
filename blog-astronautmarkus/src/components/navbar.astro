@@ -1,77 +1,72 @@
-<nav
-    class="navbar is-fixed-top custom-navbar"
-    role="navigation"
-    aria-label="main navigation"
->
-    <div class="navbar-brand">
-        <a class="brand ml-4" href="/" style="display: flex; align-items: center; gap: 0.5rem;">
-            <img src="/img/markus-witchter.png" alt="Markus the Astronaut Witchter" style="height: 36px; border-radius: 50%; object-fit: cover;" />
-            <span class="brand-text">Blog.AstronautMarkus.Dev</span>
+<nav class="w-full fixed top-0 left-0 bg-[#c5c1c0] z-50">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-4 py-2">
+        <a href="/" class="flex items-center gap-2">
+            <img src="/img/pixel-logo-ver.png" alt="AstronautMarkusDev character" class="h-9 md:h-16" />
+            <span class="font-semibold text-lg hover:underline md:text-lg text-base">Blog.AstronautMarkus.Dev</span>
         </a>
-        <a
-            role="button"
-            class="navbar-burger"
-            aria-label="menu"
-            aria-expanded="false"
-            data-target="navbarBasic"
-        >
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
-    </div>
 
-    <div id="navbarBasic" class="navbar-menu">
-        <div class="navbar-end">
-            <a class="navbar-item" href="/">Home</a>
-            <a class="navbar-item" href="/posts">Posts</a>
-            <a class="navbar-item" href="/contact">Contact</a>
-            <a class="navbar-item" href="/author-notes">Author Notes</a>
-            <div class="navbar-item">
-                <button id="theme-toggle" class="button is-ghost" title="Toggle theme">
-                    <span class="icon">
-                        <i id="theme-icon" class="fa-regular fa-lightbulb"></i>
-                    </span>
-                </button>
-            </div>
+        <button id="navbar-burger" class="md:hidden flex items-center px-2 py-1 text-gray-700 rounded hover:bg-gray-100 transition" aria-label="Open menu">
+            <svg class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+
+        <div class="hidden md:flex flex-row items-center gap-4">
+            <a class="text-black hover:underline px-4 py-2 font-semibold" href="/">Home</a>
+            <a class="text-black hover:underline px-4 py-2 font-semibold" href="/posts">Posts</a>
+            <a class="text-black hover:underline px-4 py-2 font-semibold" href="/author-notes">Author Notes</a>
         </div>
     </div>
-</nav>
 
+    <div id="navbar-menu"
+        class="fixed top-0 left-0 h-full w-64 bg-[#c5c1c0] shadow-lg z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col pt-20 gap-2"
+        style="will-change: transform;"
+    >
+        <button id="navbar-close" class="absolute top-4 right-4 text-gray-700 hover:bg-gray-100 rounded p-2" aria-label="Close menu">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold" href="/">Home</a>
+        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold" href="/posts">Posts</a>
+        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold" href="/contact">Contact</a>
+        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold" href="/author-notes">Author Notes</a>
+    </div>
+
+    <div id="navbar-overlay" class="fixed inset-0 bg-black/30 z-40 hidden md:hidden"></div>
+</nav>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
-        const html = document.documentElement;
-        
-        // Detect system preference
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const systemTheme = systemPrefersDark ? 'dark' : 'light';
-        
-        // Use saved theme or system preference
-        const currentTheme = localStorage.getItem('theme') || systemTheme;
-        html.setAttribute('data-theme', currentTheme);
-        updateIcon(currentTheme);
-        
-        if (themeToggle) {
-            themeToggle.addEventListener('click', function() {
-                const currentTheme = html.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                
-                html.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                updateIcon(newTheme);
-            });
+        const burger = document.getElementById('navbar-burger');
+        const menu = document.getElementById('navbar-menu');
+        const closeBtn = document.getElementById('navbar-close');
+        const overlay = document.getElementById('navbar-overlay');
+
+        function openMenu() {
+            menu.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
         }
-        
-        function updateIcon(theme: any) {
-            if (!themeIcon) return;
-            if (theme === 'dark') {
-                themeIcon.className = 'fas fa-moon';
-            } else {
-                themeIcon.className = 'fa-regular fa-sun';
-            }
+        function closeMenu() {
+            menu.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        if (burger && menu && closeBtn && overlay) {
+            burger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                openMenu();
+            });
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeMenu();
+            });
+            overlay.addEventListener('click', function() {
+                closeMenu();
+            });
+            // Optional: close menu when clicking a link
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
         }
     });
 </script>
