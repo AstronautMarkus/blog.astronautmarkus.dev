@@ -1,24 +1,24 @@
-<nav class="w-full fixed top-0 left-0 bg-[#c5c1c0] z-50">
+<nav class="w-full fixed top-0 left-0 bg-[#c5c1c0] z-50 playstation-fonts">
     <div class="max-w-5xl mx-auto flex items-center justify-between px-4 py-2">
         <a href="/" class="flex items-center gap-2">
             <img src="/img/pixel-logo-ver.png" alt="AstronautMarkusDev character" class="h-9 md:h-16" />
-            <span class="font-semibold text-lg hover:underline md:text-lg text-base">Blog.AstronautMarkus.Dev</span>
+            <span class="font-semibold text-lg hover:underline md:text-2xl text-base text-gray-800">Blog.AstronautMarkus.Dev</span>
         </a>
 
-        <button id="navbar-burger" class="md:hidden flex items-center px-2 py-1 text-gray-700 rounded hover:bg-gray-100 transition mr-4" aria-label="Open menu">
+        <button id="navbar-burger" class="md:hidden flex items-center px-2 py-1 text-gray-800 rounded hover:bg-gray-100 transition mr-4" aria-label="Open menu">
             <i class="hn hn-bars-solid"></i>
         </button>
 
         <div class="hidden md:flex flex-row items-center gap-4">
-            <a class="flex items-center gap-2 text-black hover:underline px-4 py-2 font-medium" href="/">
+            <a class="flex items-center gap-2 text-gray-800 hover:underline px-4 py-2 font-medium" href="/">
             <i class="hn hn-home-solid text-lg"></i>
             <span>Home</span>
             </a>
-            <a class="flex items-center gap-2 text-black hover:underline px-4 py-2 font-medium" href="/posts">
+            <a class="flex items-center gap-2 text-gray-800 hover:underline px-4 py-2 font-medium" href="/posts">
             <i class="hn hn-folder-solid text-lg"></i>
             <span>Posts</span>
             </a>
-            <a class="flex items-center gap-2 text-black hover:underline px-4 py-2 font-medium" href="/author-notes">
+            <a class="flex items-center gap-2 text-gray-800 hover:underline px-4 py-2 font-medium" href="/author-notes">
             <i class="hn hn-pen-solid text-lg"></i>
             <span>Author Notes</span>
             </a>
@@ -29,22 +29,18 @@
         class="fixed top-0 left-0 h-full w-64 bg-[#c5c1c0] shadow-lg z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col pt-20 gap-2"
         style="will-change: transform;"
     >
-        <button id="navbar-close" class="absolute top-4 right-4 text-gray-700 hover:bg-gray-100 rounded p-2" aria-label="Close menu">
+        <button id="navbar-close" class="absolute top-4 right-4 text-gray-800 hover:bg-gray-100 rounded p-2" aria-label="Close menu">
             <i class="hn hn-times-solid"></i>
         </button>
-        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/">
+        <a class="text-gray-800 hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/">
             <i class="hn hn-home-solid text-lg"></i>
             <span>Home</span>
         </a>
-        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/posts">
+        <a class="text-gray-800 hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/posts">
             <i class="hn hn-folder-solid text-lg"></i>
             <span>Posts</span>
         </a>
-        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/contact">
-            <i class="hn hn-envelope-solid text-lg"></i>
-            <span>Contact</span>
-        </a>
-        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/author-notes">
+        <a class="text-gray-800 hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/author-notes">
             <i class="hn hn-pen-solid text-lg"></i>
             <span>Author Notes</span>
         </a>
@@ -80,7 +76,6 @@
             overlay.addEventListener('click', function() {
                 closeMenu();
             });
-            // Optional: close menu when clicking a link
             menu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', closeMenu);
             });

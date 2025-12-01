@@ -1,2 +1,13 @@
 @import "tailwindcss";
 @import '@hackernoon/pixel-icon-library/fonts/iconfont.css';
+
+@font-face {
+    font-family: 'ZRnic';
+    src: url('/fonts/zrnic-rg.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.playstation-fonts {
+    font-family: 'ZRnic', sans-serif;
+}
