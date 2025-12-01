@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const isp_api_url = "http://ip-api.com/json/"
+const flags_api_url = "https://flagsapi.com/";
 
 function getClientIPData() {
   return axios.get(isp_api_url, { timeout: 5000 })
@@ -151,14 +152,30 @@ function VisitorStats({ apiUrl }) {
       ) : error ? (
         <p className="text-lg text-red-600">{error}</p>
       ) : (
-        <div className="flex items-center gap-2">
-          <span className="text-lg">Total Visitors:</span>
-          <div
-            className="bg-black text-white font-mono text-2xl px-4 py-2 shadow-lg"
-            style={{ borderRadius: 0, minWidth: '90px', textAlign: 'center' }}
-          >
-            {formatDigitalCounter(visitorData?.visitors_counter ?? 0)}
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-lg">Total Visitors:</span>
+            <div
+              className="bg-black text-white font-mono text-2xl px-4 py-2 shadow-lg playstation-fonts"
+              style={{ borderRadius: 0, minWidth: '90px', textAlign: 'center' }}
+            >
+              {formatDigitalCounter(visitorData?.visitors_counter ?? 0)}
+            </div>
           </div>
+          
+          {visitorData?.countries?.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-4 items-center">
+              {visitorData.countries.map((country) => (
+                <img
+                  key={country.country_code}
+                  src={`${flags_api_url}${country.country_code}/flat/64.png`}
+                  alt={country.country}
+                  title={country.country}
+                  className="h-8"
+                />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
