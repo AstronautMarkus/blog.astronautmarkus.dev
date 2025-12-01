@@ -31,6 +31,10 @@ def post_visit():
     if country_code:
         country_code = country_code.upper()
 
+    user_agent = data.get('user_agent')
+    if user_agent:
+        user_agent = user_agent[:300]
+
     # Check for previous visit from the same IP
     ip_address = data['ip_address']
     last_visit = Visitor.query.filter_by(ip_address=ip_address).order_by(Visitor.visit_time.desc()).first()
@@ -45,7 +49,8 @@ def post_visit():
             ip_address=ip_address,
             country=country,
             country_code=country_code,
-            visit_time=now
+            visit_time=now,
+            user_agent=user_agent
         )
         db.session.add(new_visitor)
         db.session.commit()

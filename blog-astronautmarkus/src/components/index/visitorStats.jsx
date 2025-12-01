@@ -25,12 +25,11 @@ function getClientIPData() {
     .catch(() => ({ ip: 'Unknown' }));
 }
 
-// New function to POST visitor data
-async function postVisitor(apiUrl, country, ip_address, country_code) {
+async function postVisitor(apiUrl, country, ip_address, country_code, user_agent) {
   try {
     const response = await axios.post(
       `${apiUrl}/visitors`,
-      { country, ip_address, country_code },
+      { country, ip_address, country_code, user_agent },
       { timeout: 5000 }
     );
     console.log('POST response:', response.data);
@@ -66,7 +65,8 @@ function useRegisterVisitor(apiUrl) {
     if (shouldRegister) {
       getClientIPData().then(data => {
         if (data.ip !== 'Unknown' && data.country) {
-          postVisitor(apiUrl, data.country, data.ip, data.countryCode).then(response => {
+          const user_agent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+          postVisitor(apiUrl, data.country, data.ip, data.countryCode, user_agent).then(response => {
             if (response && response.status === 201 && response.data.last_visitor) {
               localStorage.setItem(
                 'last_visit',
