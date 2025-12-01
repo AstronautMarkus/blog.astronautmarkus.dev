@@ -22,4 +22,7 @@ def create_app():
     from app.routes.visitors import visitors_bp
     app.register_blueprint(visitors_bp, url_prefix='/visitors')
 
+    from app.routes.posts import posts_bp
+    app.register_blueprint(posts_bp, url_prefix='/posts')
+
     return app
