@@ -26,6 +26,8 @@ class Post(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    image_url = db.Column(db.String(300), nullable=True)
     slug = db.Column(db.String(200), unique=True, nullable=False)
 
     def to_dict(self):
