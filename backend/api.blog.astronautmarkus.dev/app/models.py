@@ -48,6 +48,7 @@ class PostView(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
     timestamp = db.Column(db.DateTime, server_default=db.func.now())
     ip = db.Column(db.String(50))
+    visit_time = db.Column(db.DateTime, default=datetime.utcnow)
     user_agent = db.Column(db.String(300))
 
     def to_dict(self):
