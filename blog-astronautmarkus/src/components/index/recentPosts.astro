@@ -5,6 +5,15 @@ const sortedPosts = blogPosts
     .filter(post => post.frontmatter?.publishDate)
     .sort((a, b) => new Date(b.frontmatter.publishDate).getTime() - new Date(a.frontmatter.publishDate).getTime())
     .slice(0, 5);
+
+const postColors = [
+    'bg-[#df0024] text-white hover:bg-[#b8001e]',
+    'bg-[#f3c300] text-black hover:bg-[#d1a500]',
+    'bg-[#00ab9f] text-white hover:bg-[#008f85]',
+    'bg-[#2e6db4] text-white hover:bg-[#245290]',
+    'bg-[#2e6db4] text-white hover:bg-[#245290]'
+];
+
 ---
 
 <div class="bg-[#c5c1c0] shadow p-4">
@@ -13,12 +22,15 @@ const sortedPosts = blogPosts
     </h3>
     <div>
         {sortedPosts.length > 0 ? (
-            <ul class="list-disc pl-5 space-y-1">
-                {sortedPosts.map(post => {
+            <ul class="list-none pl-0 space-y-1">
+                {sortedPosts.map((post, index) => {
                     const filename = post.file.split('/').pop()?.replace('.md', '');
                     return (
                         <li>
-                            <a class="text-blue-600 font-medium hover:underline" href={`/blogs/${filename}`}>
+                            <a
+                                class={`px-2 py-1 ${postColors[index % postColors.length]} text-sm font-medium inline-block`}
+                                href={`/blogs/${filename}`}
+                            >
                                 {post.frontmatter.title || filename}
                             </a>
                         </li>
