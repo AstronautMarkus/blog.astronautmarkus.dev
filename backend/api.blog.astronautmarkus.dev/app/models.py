@@ -18,3 +18,35 @@ class Visitor(db.Model):
             'country_code': self.country_code,
             'visit_time': self.visit_time.isoformat()
         }
+
+class Post(db.Model):
+    __tablename__ = 'posts'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    slug = db.Column(db.String(200), unique=True, nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'slug': self.slug
+        }
+
+class PostView(db.Model):
+    __tablename__ = 'post_views'
+
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    timestamp = db.Column(db.DateTime, server_default=db.func.now())
+    ip = db.Column(db.String(50))
+    user_agent = db.Column(db.String(300))
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'post_id': self.post_id,
+            'timestamp': self.timestamp.isoformat(),
+            'ip': self.ip,
+            'user_agent': self.user_agent
+        }
