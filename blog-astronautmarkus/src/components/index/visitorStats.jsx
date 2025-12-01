@@ -25,11 +25,11 @@ function getClientIPData() {
 }
 
 // New function to POST visitor data
-async function postVisitor(apiUrl, country, ip_address) {
+async function postVisitor(apiUrl, country, ip_address, country_code) {
   try {
     const response = await axios.post(
       `${apiUrl}/visitors`,
-      { country, ip_address },
+      { country, ip_address, country_code },
       { timeout: 5000 }
     );
     console.log('POST response:', response.data);
@@ -65,7 +65,7 @@ function useRegisterVisitor(apiUrl) {
     if (shouldRegister) {
       getClientIPData().then(data => {
         if (data.ip !== 'Unknown' && data.country) {
-          postVisitor(apiUrl, data.country, data.ip).then(response => {
+          postVisitor(apiUrl, data.country, data.ip, data.countryCode).then(response => {
             if (response && response.status === 201 && response.data.last_visitor) {
               localStorage.setItem(
                 'last_visit',
@@ -125,6 +125,17 @@ export function useVisitorStats(apiUrl) {
   return { visitorData, loading, error };
 }
 
+function formatDigitalCounter(count) {
+  const str = String(count).padStart(4, '0');
+  if (str.length <= 4) {
+    return str.slice(0, 2) + str.slice(2);
+  } else {
+    const main = str.slice(0, str.length - 2);
+    const last = str.slice(-2);
+    return main + last;
+  }
+}
+
 function VisitorStats({ apiUrl }) {
   useRegisterVisitor(apiUrl);
 
@@ -140,9 +151,15 @@ function VisitorStats({ apiUrl }) {
       ) : error ? (
         <p className="text-lg text-red-600">{error}</p>
       ) : (
-        <p className="text-lg">
-          Total Visitors: <strong>{visitorData?.visitors_counter ?? 'N/A'}</strong>
-        </p>
+        <div className="flex items-center gap-2">
+          <span className="text-lg">Total Visitors:</span>
+          <div
+            className="bg-black text-white font-mono text-2xl px-4 py-2 shadow-lg"
+            style={{ borderRadius: 0, minWidth: '90px', textAlign: 'center' }}
+          >
+            {formatDigitalCounter(visitorData?.visitors_counter ?? 0)}
+          </div>
+        </div>
       )}
     </div>
   );
