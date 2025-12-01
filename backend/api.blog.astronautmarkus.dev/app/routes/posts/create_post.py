@@ -10,6 +10,7 @@ def create_post():
     description = data.get('description')
     slug = data.get('slug')
     image_url = data.get('image_url')
+    url = data.get('url')
     tags = data.get('tags', [])
 
     if not title or not description or not slug:
@@ -20,7 +21,8 @@ def create_post():
         title=title,
         description=description,
         slug=slug,
-        image_url=image_url
+        image_url=image_url,
+        url=url
     )
     db.session.add(post)
     db.session.commit()
@@ -44,5 +46,6 @@ def create_post():
         'description': post.description,
         'slug': post.slug,
         'image_url': post.image_url,
+        'url': post.url,
         'tags': [tag.name for tag in tag_objs]
     }), 201

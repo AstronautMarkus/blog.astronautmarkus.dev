@@ -17,6 +17,7 @@ def get_posts():
             'description': post.description,
             'image_url': post.image_url,
             'slug': post.slug,
+            'url': post.url,
             'tags': tags_names
         })
     return jsonify(posts_data)
@@ -40,6 +41,7 @@ def get_post_by_slug(slug):
         'description': post.description,
         'image_url': post.image_url,
         'slug': post.slug,
+        'url': post.url,
         'tags': tags_names
     }
     return jsonify(post_data)

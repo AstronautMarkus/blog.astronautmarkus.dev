@@ -27,6 +27,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text, nullable=False)
+    url = db.Column(db.String(300), nullable=True)
     image_url = db.Column(db.String(300), nullable=True)
     slug = db.Column(db.String(200), unique=True, nullable=False)
 
@@ -34,6 +35,9 @@ class Post(db.Model):
         return {
             'id': self.id,
             'title': self.title,
+            'description': self.description,
+            'url': self.url,
+            'image_url': self.image_url,
             'slug': self.slug
         }
 
