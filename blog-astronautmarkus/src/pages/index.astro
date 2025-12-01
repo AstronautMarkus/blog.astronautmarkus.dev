@@ -5,6 +5,9 @@ import CategoriesGetter from "../components/index/categoriesGetter.astro";
 import RecentPosts from "../components/index/recentPosts.astro";
 import RandomPostGetter from "../components/index/randomPostGetter.astro";
 import VisitorStats from "../components/index/visitorStats.jsx";
+
+const apiUrl = import.meta.env.API_URL;
+
 ---
 
 <Layout
@@ -94,7 +97,7 @@ import VisitorStats from "../components/index/visitorStats.jsx";
 
           <RecentPosts />
 
-          <VisitorStats />
+          <VisitorStats apiUrl={apiUrl} client:load />
         </div>
       </div>
     </div>
