@@ -1,9 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import "../css/blogsList.css";
 
 // Get all post list using import.meta.glob instead of Astro.glob
-const allPosts = Object.values(await import.meta.glob("./blogs/*.md", { eager: true }));
+const allPosts = Object.values(
+  await import.meta.glob("./blogs/*.md", { eager: true }),
+);
 const sortedPosts = allPosts.sort(
   (a, b) =>
     new Date(b.frontmatter.publishDate).getTime() -
@@ -11,11 +12,33 @@ const sortedPosts = allPosts.sort(
 );
 
 // Function to truncate description
-const truncateDescription = (description: string, maxLength: number = 150): string => {
+const truncateDescription = (
+  description: string,
+  maxLength: number = 150,
+): string => {
   if (!description) return "No description available.";
   if (description.length <= maxLength) return description;
   return description.substring(0, maxLength).trim() + "...";
 };
+
+const tagColors = [
+  "bg-[#df0024] text-white",
+  "bg-[#f3c300] text-black",
+  "bg-[#00ab9f] text-white",
+  "bg-[#2e6db4] text-white",
+  "bg-[#2e6db4] text-white",
+];
+// Function to get consistent color for each tag
+const getTagColor = (tag: string): string => {
+  let hash = 0;
+  for (let i = 0; i < tag.length; i++) {
+    hash = tag.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return tagColors[Math.abs(hash) % tagColors.length];
+};
+
+// Default error image for fallback
+const errorImage = "/img/error-banner.png";
 ---
 
 <Layout
@@ -36,64 +59,85 @@ const truncateDescription = (description: string, maxLength: number = 150): stri
     "astronautmarkus",
   ]}
 >
-  <section class="section">
-    <div class="container">
-      <h1 class="title is-2 has-text-centered has-text-secondary mb-6">
-       <i class="fas fa-newspaper"></i> All Blog Posts
+  <section class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <h1
+        class="text-4xl font-bold text-center mb-8 flex items-center justify-center gap-3 mt-12"
+      >
+        <i class="hn hn-folder-solid"></i> Posts Archive
       </h1>
 
-      <div class="columns is-multiline">
+      <div class="flex flex-wrap -mx-4">
         {
           sortedPosts.map((post) => (
-            <div class="column is-one-third">
-              <div class="card post-card">
-                <div class="card-image">
-                  <figure class="image is-16by9">
-                    <img
-                      src={post.frontmatter.image || "/img/16_9-banner-en.png"}
-                      alt={post.frontmatter.imageAlt || post.frontmatter.title || "Blog post image"}
-                      loading="lazy"
-                    />
-                  </figure>
+            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+              <div class="bg-[#c5c1c0] shadow-lg overflow-hidden flex flex-col h-full">
+                <div class="relative pb-[56.25%]">
+                  <img
+                    src={post.frontmatter.image || "/img/16_9-banner-en.png"}
+                    alt={
+                      post.frontmatter.imageAlt ||
+                      post.frontmatter.title ||
+                      "Blog post image"
+                    }
+                    loading="lazy"
+                    onerror={`this.src='${errorImage}'; this.onerror=null;`}
+                    class="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
+                  />
                 </div>
-                <div class="card-content">
-                  <div class="media">
-                    <div class="media-content">
-                      <p class="title is-5">{post.frontmatter.title || "Untitled Post"}</p>
-                      <p class="subtitle is-6 has-text-grey">
-                        by {post.frontmatter.author || "AstronautMarkus"} •{" "}
-                        {post.frontmatter.publishDate ? new Date(
-                          post.frontmatter.publishDate,
-                        ).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        }) : "Date not available"}
-                      </p>
-                    </div>
+                <div class="p-6 flex-1 flex flex-col">
+                  <div class="mb-2 text-center">
+                    <p class="text-xl font-semibold text-gray-900">
+                      {post.frontmatter.title || "Untitled Post"}
+                    </p>
+                    <p class="text-sm text-gray-600">
+                      by {post.frontmatter.author || "AstronautMarkus"} •{" "}
+                      {post.frontmatter.publishDate
+                        ? new Date(
+                            post.frontmatter.publishDate,
+                          ).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })
+                        : "Date not available"}
+                    </p>
                   </div>
 
-                  <div class="content">
-                    <p>{truncateDescription(post.frontmatter.description)}</p>
+                  <div class="flex-1">
+                    <p class="text-gray-800 text-center">
+                      {truncateDescription(post.frontmatter.description)}
+                    </p>
 
-                    {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
-                      <div class="tags mt-3">
-                        {post.frontmatter.tags.slice(0, 3).map((tag: any) => (
-                          <span class="tag is-link is-light">{tag}</span>
-                        ))}
-                        {post.frontmatter.tags.length > 3 && (
-                          <span class="tag is-grey-light">
-                            +{post.frontmatter.tags.length - 3}
-                          </span>
-                        )}
-                      </div>
-                    )}
+                    {post.frontmatter.tags &&
+                      post.frontmatter.tags.length > 0 && (
+                        <div class="flex flex-wrap gap-2 mt-3 justify-center items-center">
+                          {post.frontmatter.tags
+                            .slice(0, 3)
+                            .map((tag: any, index: number) => (
+                              <div class="flex items-center gap-2 shadow-lg ">
+                                <span
+                                  class={`px-2 py-1 ${tagColors[index % tagColors.length]} text-sm font-medium`}
+                                >
+                                  {tag}
+                                </span>
+                              </div>
+                            ))}
+                          {post.frontmatter.tags.length > 3 && (
+                            <button class="px-5 py-1 text-sm bg-gray-800 text-white font-semibold transition shadow-lg">
+                              +{post.frontmatter.tags.length - 3}
+                            </button>
+                          )}
+                        </div>
+                      )}
                   </div>
                 </div>
-                <footer class="card-footer" style="padding: 0.5rem;">
-                  <a href={post.url} class="card-footer-item button is-link">
-                    <i class="fas fa-arrow-right mr-2"></i>
-                    Read More
+                <footer class="px-6 py-3 text-center">
+                  <a
+                    href={post.url}
+                    class="inline-flex items-center gap-2 text-white bg-gray-800 hover:bg-gray-900 font-semibold  px-4 py-2 transition shadow-lg"
+                  >
+                    Watch Full Post
                   </a>
                 </footer>
               </div>
@@ -104,9 +148,9 @@ const truncateDescription = (description: string, maxLength: number = 150): stri
 
       {
         sortedPosts.length === 0 && (
-          <div class="has-text-centered">
-            <p class="title is-4 has-text-grey">No posts found</p>
-            <p class="subtitle has-text-grey">
+          <div class="text-center">
+            <p class="text-2xl text-gray-500 font-semibold">No posts found</p>
+            <p class="text-lg text-gray-400">
               Check back later for new content!
             </p>
           </div>

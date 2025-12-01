@@ -1,7 +1,6 @@
 ---
 import Navbar from "../components/navbar.astro";
 import Footer from "../components/footer.astro";
-import Scripts from "../components/scripts.astro";
 
 const { frontmatter } = Astro.props;
 
@@ -21,7 +20,7 @@ const {
 } = frontmatter || {};
 
 import "../css/global.css";
-import "../css/noteDetail.css";
+import "../css/markdown.css";
 
 const finalPublishDate = publishDate || pubDate || date;
 
@@ -34,7 +33,6 @@ const bannerImage = new URL(image, siteUrl).href;
 
 const formatDate = (dateString: string) => {
     if (!dateString) return "Date not available";
-    
     if (dateString.match(/^\d{4}-\d{2}-\d{2}$/)) {
         const [year, month, day] = dateString.split('-').map(Number);
         const date = new Date(year, month - 1, day);
@@ -44,7 +42,6 @@ const formatDate = (dateString: string) => {
             day: 'numeric' 
         });
     }
-    
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
         year: 'numeric', 
@@ -86,14 +83,11 @@ const structuredData = {
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="author" content={author} />
         {noindex && <meta name="robots" content="noindex, nofollow" />}
-        
         <link rel="canonical" href={canonicalUrl} />
-        
         <meta property="og:type" content={type} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -102,7 +96,6 @@ const structuredData = {
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:site_name" content={siteName} />
         <meta property="og:locale" content="en_US" />
-        
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@astronautmarkus" />
         <meta name="twitter:creator" content="@astronautmarkus" />
@@ -110,10 +103,7 @@ const structuredData = {
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={bannerImage} />
         <meta name="twitter:image:alt" content={imageAlt} />
-
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
-
-        
         {type === "article" && finalPublishDate && (
             <meta property="article:published_time" content={finalPublishDate} />
         )}
@@ -123,84 +113,67 @@ const structuredData = {
         {type === "article" && (
             <meta property="article:author" content={author} />
         )}
-        
-        <link rel="icon" type="image/svg+xml" href="/favicon.jpg" />
-        <link rel="icon" type="image/png" href="/favicon.jpg" />
-        <link rel="apple-touch-icon" href="/favicon.jpg" />
-        
+        <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
         <meta name="theme-color" content="#3273dc" />
         <meta name="color-scheme" content="light" />
-        
         <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-
-        
         <style>
-            html, body {
-                height: 100%;
-            }
-            body {
-                display: flex;
-                flex-direction: column;
-            }
-            .main-content {
-                flex: 1;
-            }
+            html, body { height: 100%; }
+            body { display: flex; flex-direction: column; }
+            .main-content { flex: 1; }
         </style>
     </head>
-    <body>
+    <body class="flex flex-col min-h-screen bg-[#ADADAD] text-gray-900">
         <Navbar />
 
-        <section class="section main-content">
-            <div class="container">
-                <div class="columns">
-                    <div class="column is-8 is-offset-2">
-                        <article class="note-post">
-                            <header class="note-header mb-5">
-                                <h1 class="title is-2 has-text-weight-bold mb-3 mt-6 has-text-secondary">{title}</h1>
-
-                                <div class="note-hero-image mb-5">
-                                    <figure class="image">
-                                        <img src={image} alt={imageAlt} />
+        <section class="main-content flex-1 py-8 mt-8">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-center">
+                    <div class="w-full max-w-4xl">
+                        <article class="markdown-post">
+                            <header class="markdown-header mb-8">
+                                <h1 class="text-4xl font-bold mb-4 mt-12">{title}</h1>
+                                <div class="markdown-hero-image mb-6">
+                                    <figure>
+                                        <img 
+                                            src={image} 
+                                            alt={imageAlt} 
+                                            class="shadow-lg w-full object-cover"
+                                        />
                                     </figure>
                                 </div>
-
-                                <p class="subtitle is-5 has-text-grey mb-4">"{description}"</p>
-
-                                <div class="note-dates mt-3">
+                                <p class="text-lg text-black mb-6 italic">"{description}"</p>
+                                <div class="markdown-dates mt-2 space-y-1">
                                     {finalPublishDate ? (
-                                        <p class="has-text-grey is-size-7">
+                                        <p class="text-black text-xs">
                                             <strong>Published:</strong> {formatDate(finalPublishDate)}
                                         </p>
                                     ) : (
-                                        <p class="has-text-grey is-size-7">
+                                        <p class="text-black text-xs">
                                             <strong>Published:</strong> Date not available
                                         </p>
                                     )}
                                     {modifiedDate && (
-                                        <p class="has-text-grey is-size-7">
+                                        <p class="text-black text-xs">
                                             <strong>Modified:</strong> {formatDate(modifiedDate)}
                                         </p>
                                     )}
                                 </div>
                             </header>
-
-                            <div class="content note-content">
+                            <div class="content markdown-content prose max-w-none">
                                 <slot />
                             </div>
-
-                            <footer class="note-author-footer mt-5 pt-4">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <figure class="image is-48x48">
-                                            <img class="is-rounded" src="https://github.com/astronautmarkus.png" alt="AstronautMarkus Profile" />
-                                        </figure>
+                            <footer class="markdown-author-footer mt-10 pt-6 border-t border-gray-200">
+                                <div class="flex items-center">
+                                    <div>
+                                        <img class="shadow-lg border border-[#c5c1c0] w-12 h-12" src="https://github.com/astronautmarkus.png" alt="AstronautMarkus Profile" />
                                     </div>
-                                    <div class="media-content">
-                                        <div class="content">
-                                            <p class="has-text-grey is-size-6 mb-0">
-                                                <strong>AstronautMarkus</strong> (Marcos Reyes M.)
-                                            </p>
-                                        </div>
+                                    <div class="ml-4">
+                                        <p class="text-black text-base mb-0">
+                                            <strong>AstronautMarkus</strong> <span class="text-sm">(Marcos Reyes M.)</span>
+                                        </p>
                                     </div>
                                 </div>
                             </footer>
@@ -212,48 +185,54 @@ const structuredData = {
 
         <Footer />
 
-        <Scripts />
-
         <script>
+            // Image error handling function
+            function handleImageError(img, fallbackSrc) {
+                if (img.src !== fallbackSrc) {
+                    img.src = fallbackSrc;
+                    img.onerror = null;
+                }
+            }
+
+            // Apply error handling to all images in note content
             document.addEventListener('DOMContentLoaded', function() {
-                const codeBlocks = document.querySelectorAll('.note-content pre');
-                
+                const contentImages = document.querySelectorAll('.markdown-content img');
+                contentImages.forEach(img => {
+                    img.onerror = function() {
+                        handleImageError(this, '/img/error-banner.png');
+                    };
+                });
+
+                const codeBlocks = document.querySelectorAll('.markdown-content pre');
                 codeBlocks.forEach((pre, index) => {
                     const container = document.createElement('div');
-                    container.className = 'code-block-container';
-                    
+                    container.className = 'relative';
                     if (pre.parentNode) {
                         pre.parentNode.insertBefore(container, pre);
                         container.appendChild(pre);
                     }
-                    
                     const copyButton = document.createElement('button');
-                    copyButton.className = 'copy-button';
-                    copyButton.innerHTML = '<span class="icon">📋</span>Copy';
+                    copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
+                    copyButton.innerHTML = '<i class="hn hn-paperclip-solid"></i>Copy';
                     copyButton.setAttribute('aria-label', 'Copy code to clipboard');
                     copyButton.setAttribute('data-code-index', index.toString());
-                    
                     container.appendChild(copyButton);
-                    
                     copyButton.addEventListener('click', async function() {
                         const code = pre.querySelector('code') || pre;
                         const textToCopy = code.textContent || '';
-                        
                         try {
                             await navigator.clipboard.writeText(textToCopy);
-                            
                             const originalContent = copyButton.innerHTML;
-                            copyButton.innerHTML = '<span class="icon">✅</span>Copied!';
+                            copyButton.innerHTML = '<i class="hn hn-check-solid"></i>Copied!';
                             copyButton.classList.add('copied');
-                            
+                            copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
                             setTimeout(() => {
                                 copyButton.innerHTML = originalContent;
                                 copyButton.classList.remove('copied');
+                                copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
                             }, 2000);
-                            
                         } catch (err) {
                             console.error('Failed to copy code: ', err);
-                            
                             const textArea = document.createElement('textarea');
                             textArea.value = textToCopy;
                             textArea.style.position = 'fixed';
@@ -261,24 +240,25 @@ const structuredData = {
                             document.body.appendChild(textArea);
                             textArea.focus();
                             textArea.select();
-                            
                             try {
                                 document.execCommand('copy');
-                                copyButton.innerHTML = '<span class="icon">✅</span>Copied!';
+                                copyButton.innerHTML = '<i class="hn hn-check-solid"></i>Copied!';
                                 copyButton.classList.add('copied');
-                                
+                                copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
                                 setTimeout(() => {
-                                    copyButton.innerHTML = '<span class="icon">📋</span>Copy';
+                                    copyButton.innerHTML = '<i class="hn hn-paperclip-solid"></i>Copy';
                                     copyButton.classList.remove('copied');
+                                    copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
                                 }, 2000);
                             } catch (fallbackErr) {
                                 console.error('Fallback copy failed: ', fallbackErr);
                                 copyButton.innerHTML = '<span class="icon">❌</span>Failed';
+                                copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
                                 setTimeout(() => {
-                                    copyButton.innerHTML = '<span class="icon">📋</span>Copy';
+                                    copyButton.innerHTML = '<i class="hn hn-paperclip-solid"></i>Copy';
+                                    copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
                                 }, 2000);
                             }
-                            
                             document.body.removeChild(textArea);
                         }
                     });

@@ -9,8 +9,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^7.0.1",
+    "@hackernoon/pixel-icon-library": "^1.0.6",
+    "@tailwindcss/vite": "^4.1.17",
     "astro": "^5.14.1",
-    "bulma": "^1.0.4"
+    "tailwindcss": "^4.1.17"
   }
 }

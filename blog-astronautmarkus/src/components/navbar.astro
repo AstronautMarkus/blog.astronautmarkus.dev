@@ -1,33 +1,89 @@
-<nav
-    class="navbar is-fixed-top custom-navbar"
-    role="navigation"
-    aria-label="main navigation"
->
-    <div class="navbar-brand">
-        <a class="brand ml-4" href="/" style="display: flex; align-items: center; gap: 0.5rem;">
-            <img src="/favicon.jpg" alt="AstronautMarkus Penguin Tux" style="height: 36px; border-radius: 50%; object-fit: cover;" />
-            /blog.astronautmarkus
+<nav class="w-full fixed top-0 left-0 bg-[#c5c1c0] z-50">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-4 py-2">
+        <a href="/" class="flex items-center gap-2">
+            <img src="/img/pixel-logo-ver.png" alt="AstronautMarkusDev character" class="h-9 md:h-16" />
+            <span class="font-semibold text-lg hover:underline md:text-lg text-base">Blog.AstronautMarkus.Dev</span>
         </a>
-        <a
-            role="button"
-            class="navbar-burger"
-            aria-label="menu"
-            aria-expanded="false"
-            data-target="navbarBasic"
-        >
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
+
+        <button id="navbar-burger" class="md:hidden flex items-center px-2 py-1 text-gray-700 rounded hover:bg-gray-100 transition mr-4" aria-label="Open menu">
+            <i class="hn hn-bars-solid"></i>
+        </button>
+
+        <div class="hidden md:flex flex-row items-center gap-4">
+            <a class="flex items-center gap-2 text-black hover:underline px-4 py-2 font-medium" href="/">
+            <i class="hn hn-home-solid text-lg"></i>
+            <span>Home</span>
+            </a>
+            <a class="flex items-center gap-2 text-black hover:underline px-4 py-2 font-medium" href="/posts">
+            <i class="hn hn-folder-solid text-lg"></i>
+            <span>Posts</span>
+            </a>
+            <a class="flex items-center gap-2 text-black hover:underline px-4 py-2 font-medium" href="/author-notes">
+            <i class="hn hn-pen-solid text-lg"></i>
+            <span>Author Notes</span>
+            </a>
+        </div>
+    </div>
+
+    <div id="navbar-menu"
+        class="fixed top-0 left-0 h-full w-64 bg-[#c5c1c0] shadow-lg z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col pt-20 gap-2"
+        style="will-change: transform;"
+    >
+        <button id="navbar-close" class="absolute top-4 right-4 text-gray-700 hover:bg-gray-100 rounded p-2" aria-label="Close menu">
+            <i class="hn hn-times-solid"></i>
+        </button>
+        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/">
+            <i class="hn hn-home-solid text-lg"></i>
+            <span>Home</span>
+        </a>
+        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/posts">
+            <i class="hn hn-folder-solid text-lg"></i>
+            <span>Posts</span>
+        </a>
+        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/contact">
+            <i class="hn hn-envelope-solid text-lg"></i>
+            <span>Contact</span>
+        </a>
+        <a class="text-black hover:bg-blue-100 hover:text-blue-700 px-6 py-3 rounded transition font-semibold flex items-center gap-2" href="/author-notes">
+            <i class="hn hn-pen-solid text-lg"></i>
+            <span>Author Notes</span>
         </a>
     </div>
 
-    <div id="navbarBasic" class="navbar-menu">
-        <div class="navbar-end">
-            <a class="navbar-item" href="/">Home</a>
-            <a class="navbar-item" href="/posts">Posts</a>
-            <a class="navbar-item" href="/contact">Contact</a>
-            <a class="navbar-item" href="/author-notes">Author Notes</a>
-        </div>
-    </div>
+    <div id="navbar-overlay" class="fixed inset-0 bg-black/30 z-40 hidden md:hidden"></div>
 </nav>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const burger = document.getElementById('navbar-burger');
+        const menu = document.getElementById('navbar-menu');
+        const closeBtn = document.getElementById('navbar-close');
+        const overlay = document.getElementById('navbar-overlay');
+
+        function openMenu() {
+            menu.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+        function closeMenu() {
+            menu.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        if (burger && menu && closeBtn && overlay) {
+            burger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                openMenu();
+            });
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeMenu();
+            });
+            overlay.addEventListener('click', function() {
+                closeMenu();
+            });
+            // Optional: close menu when clicking a link
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+        }
+    });
+</script>

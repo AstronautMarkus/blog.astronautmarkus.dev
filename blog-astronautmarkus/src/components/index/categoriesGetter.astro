@@ -1,0 +1,45 @@
+---
+const blogPosts = await Astro.glob('../../pages/blogs/*.md');
+
+const tagCounts = new Map<string, number>();
+
+blogPosts.forEach(post => {
+    if (post.frontmatter?.tags) {
+        post.frontmatter.tags.forEach((tag: string) => {
+            tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+        });
+    }
+});
+
+const sortedTags = Array.from(tagCounts.entries())
+    .sort(([,a], [,b]) => b - a);
+
+const tagColors = [
+    'bg-[#df0024] text-white',
+    'bg-[#f3c300] text-black',
+    'bg-[#00ab9f] text-white',
+    'bg-[#2e6db4] text-white',
+    'bg-[#2e6db4] text-white'
+];
+---
+
+<div class="shadow p-4 bg-[#c5c1c0] ">
+    <h3 class="text-lg font-semibold flex items-center gap-2 mb-4">
+       <i class="hn hn-tag-solid"></i> Tags
+    </h3>
+    <div class="flex flex-wrap gap-2">
+        {sortedTags.length > 0 ? (
+            <>
+                {sortedTags.map(([tag, count], index) => (
+                    <div class="flex items-center gap-2">
+                        <span class={`px-2 py-1  ${tagColors[index % tagColors.length]} text-sm font-medium`}>{tag}</span>
+                    </div>
+                ))}
+            </>
+        ) : (
+            <div class="text-black">
+                <p>No categories found in posts.</p>
+            </div>
+        )}
+    </div>
+</div>

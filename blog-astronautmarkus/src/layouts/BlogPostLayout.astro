@@ -1,8 +1,6 @@
 ---
 import Navbar from "../components/navbar.astro";
 import Footer from "../components/footer.astro";
-import Scripts from "../components/scripts.astro";
-import BlogIndex from "../components/blogIndex.astro";
 import SharePost from "../components/sharePost.astro";
 
 const { frontmatter } = Astro.props;
@@ -11,6 +9,7 @@ const {
     title = "Untitled Post",
     description = "No description available.",
     image = "/img/banner-en.png",
+    errorImage = "/img/error-banner.png",
     imageAlt = "Blog Banner Image",
     author = "AstronautMarkus",
     publishDate,
@@ -23,7 +22,7 @@ const {
 } = frontmatter || {};
 
 import "../css/global.css";
-import "../css/blogDetail.css";
+import "../css/markdown.css";
 
 const finalPublishDate = publishDate || pubDate;
 
@@ -54,6 +53,14 @@ const formatDate = (dateString: string) => {
         day: 'numeric' 
     });
 };
+
+const tagColors = [
+    'bg-[#df0024] text-white',
+    'bg-[#f3c300] text-black',
+    'bg-[#00ab9f] text-white',
+    'bg-[#2e6db4] text-white',
+    'bg-[#2e6db4] text-white'
+];
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -131,9 +138,9 @@ const structuredData = {
             <meta property="article:tag" content={tag} />
         ))}
         
-        <link rel="icon" type="image/svg+xml" href="/favicon.jpg" />
-        <link rel="icon" type="image/png" href="/favicon.jpg" />
-        <link rel="apple-touch-icon" href="/favicon.jpg" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
         
         <meta name="theme-color" content="#3273dc" />
         <meta name="color-scheme" content="light" />
@@ -154,54 +161,60 @@ const structuredData = {
             }
         </style>
     </head>
-    <body>
+    <body class="flex flex-col min-h-screen bg-[#ADADAD] text-gray-900">
         <Navbar />
 
-        <BlogIndex />
+        <section class="main-content flex-1 py-8 mt-8">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-center gap-4">
 
-        <section class="section main-content">
-            <div class="container">
-                <div class="columns">
-                    <div class="column is-8 is-offset-2">
-                        <article class="blog-post">
-                            <header class="blog-header mb-5">
-                                <h1 class="title is-2 has-text-weight-bold mb-3 mt-6 has-text-secondary">{title}</h1>
+                    <div class="hidden lg:block w-12"></div>
+                    
+                    <div class="w-full max-w-4xl">
+                        <article class="markdown-post">
+                            <header class="markdown-header mb-8">
+                                <h1 class="text-4xl font-bold mb-4 mt-12">{title}</h1>
 
-                                <div class="blog-hero-image mb-5">
-                                    <figure class="image">
-                                        <img src={image} alt={imageAlt} />
+                                <div class="markdown-hero-image mb-6">
+                                    <figure>
+                                        <img 
+                                            src={image} 
+                                            alt={imageAlt} 
+                                            onerror={`this.src='${errorImage}'; this.onerror=null;`}
+                                            class="shadow-lg w-full object-cover"
+                                        />
                                     </figure>
                                 </div>
 
-                                <p class="subtitle is-5 has-text-grey mb-4">"{description}"</p>
+                                <p class="text-lg text-black mb-6 italic">"{description}"</p>
 
                                 {tags && tags.length > 0 && (
-                                    <div class="tags">
-                                        {tags.map((tag: string) => (
-                                            <span class="tag is-primary is-light">{tag}</span>
+                                    <div class="flex flex-wrap gap-2 mb-4">
+                                        {tags.map((tag: string, index: number) => (
+                                            <span class={`px-3 py-1 text-xs font-semibold shadow-lg ${tagColors[index % tagColors.length]}`}>{tag}</span>
                                         ))}
                                     </div>
                                 )}
 
-                                <div class="blog-dates mt-3">
+                                <div class="markdown-dates mt-2 space-y-1">
                                     {finalPublishDate ? (
-                                        <p class="has-text-grey is-size-7">
+                                        <p class="text-black text-xs">
                                             <strong>Published:</strong> {formatDate(finalPublishDate)}
                                         </p>
                                     ) : (
-                                        <p class="has-text-grey is-size-7">
+                                        <p class="text-black text-xs">
                                             <strong>Published:</strong> Date not available
                                         </p>
                                     )}
                                     {modifiedDate && (
-                                        <p class="has-text-grey is-size-7">
+                                        <p class="text-black text-xs">
                                             <strong>Modified:</strong> {formatDate(modifiedDate)}
                                         </p>
                                     )}
                                 </div>
                             </header>
 
-                            <div class="content blog-content">
+                            <div class="content markdown-content prose max-w-none">
                                 <slot />
                             </div>
 
@@ -211,39 +224,57 @@ const structuredData = {
                                 url={canonicalUrl}
                             />
 
-                            <footer class="blog-author-footer mt-5 pt-4">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <figure class="image is-48x48">
-                                            <img class="is-rounded" src="https://github.com/astronautmarkus.png" alt="AstronautMarkus Profile" />
-                                        </figure>
+                            <footer class="markdown-author-footer mt-10 pt-6 border-t border-gray-200">
+                                <div class="flex items-center">
+                                    <div>
+                                        <img class="shadow-lg border border-[#c5c1c0] w-12 h-12" src="https://github.com/astronautmarkus.png" alt="AstronautMarkus Profile" />
                                     </div>
-                                    <div class="media-content">
-                                        <div class="content">
-                                            <p class="has-text-grey is-size-6 mb-0">
-                                                <strong>AstronautMarkus</strong> (Marcos Reyes M.)
-                                            </p>
-                                        </div>
+                                    <div class="ml-4">
+                                        <p class="text-black text-base mb-0">
+                                            <strong>AstronautMarkus</strong> <span class="text-sm">(Marcos Reyes M.)</span>
+                                        </p>
                                     </div>
                                 </div>
                             </footer>
                         </article>
                     </div>
+                    
+                    <aside class="hidden lg:block w-64 sticky top-24 h-[85vh] overflow-y-auto ml-12">
+                        <nav id="toc" class="bg-[#c5c1c0] p-4 text-sm shadow-lg">
+                            <h2 class="font-bold mb-2 text-black text-xl">Table of Contents</h2>
+                            <ul id="toc-list" class="space-y-1"></ul>
+                        </nav>
+                    </aside>
                 </div>
             </div>
         </section>
 
         <Footer />
 
-        <Scripts />
 
         <script>
+            // Image error handling function
+            function handleImageError(img, fallbackSrc) {
+                if (img.src !== fallbackSrc) {
+                    img.src = fallbackSrc;
+                    img.onerror = null;
+                }
+            }
+
+            // Apply error handling to all images in blog content
             document.addEventListener('DOMContentLoaded', function() {
-                const codeBlocks = document.querySelectorAll('.blog-content pre');
+                const contentImages = document.querySelectorAll('.markdown-content img');
+                contentImages.forEach(img => {
+                    img.onerror = function() {
+                        handleImageError(this, '/img/error-banner.png');
+                    };
+                });
+
+                const codeBlocks = document.querySelectorAll('.markdown-content pre');
                 
                 codeBlocks.forEach((pre, index) => {
                     const container = document.createElement('div');
-                    container.className = 'code-block-container';
+                    container.className = 'relative';
                     
                     if (pre.parentNode) {
                         pre.parentNode.insertBefore(container, pre);
@@ -251,8 +282,8 @@ const structuredData = {
                     }
                     
                     const copyButton = document.createElement('button');
-                    copyButton.className = 'copy-button';
-                    copyButton.innerHTML = '<span class="icon">📋</span>Copy';
+                    copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
+                    copyButton.innerHTML = '<i class="hn hn-paperclip-solid"></i>Copy';
                     copyButton.setAttribute('aria-label', 'Copy code to clipboard');
                     copyButton.setAttribute('data-code-index', index.toString());
                     
@@ -266,12 +297,13 @@ const structuredData = {
                             await navigator.clipboard.writeText(textToCopy);
                             
                             const originalContent = copyButton.innerHTML;
-                            copyButton.innerHTML = '<span class="icon">✅</span>Copied!';
+                            copyButton.innerHTML = '<i class="hn hn-check-solid"></i>Copied!';
                             copyButton.classList.add('copied');
-                            
+                            copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
                             setTimeout(() => {
                                 copyButton.innerHTML = originalContent;
                                 copyButton.classList.remove('copied');
+                                copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
                             }, 2000);
                             
                         } catch (err) {
@@ -287,18 +319,21 @@ const structuredData = {
                             
                             try {
                                 document.execCommand('copy');
-                                copyButton.innerHTML = '<span class="icon">✅</span>Copied!';
+                                copyButton.innerHTML = '<i class="hn hn-check-solid"></i>Copied!';
                                 copyButton.classList.add('copied');
-                                
+                                copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
                                 setTimeout(() => {
-                                    copyButton.innerHTML = '<span class="icon">📋</span>Copy';
+                                    copyButton.innerHTML = '<i class="hn hn-paperclip-solid"></i>Copy';
                                     copyButton.classList.remove('copied');
+                                    copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
                                 }, 2000);
                             } catch (fallbackErr) {
                                 console.error('Fallback copy failed: ', fallbackErr);
                                 copyButton.innerHTML = '<span class="icon">❌</span>Failed';
+                                copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
                                 setTimeout(() => {
-                                    copyButton.innerHTML = '<span class="icon">📋</span>Copy';
+                                    copyButton.innerHTML = '<i class="hn hn-paperclip-solid"></i>Copy';
+                                    copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
                                 }, 2000);
                             }
                             
@@ -306,6 +341,30 @@ const structuredData = {
                         }
                     });
                 });
+
+                // TOC generation
+                const tocList = document.getElementById('toc-list');
+                if (tocList) {
+                    const content = document.querySelector('.markdown-content');
+                    if (content) {
+                        const headings = content.querySelectorAll('h1, h2, h3');
+                        tocList.innerHTML = '';
+                        headings.forEach((heading, idx) => {
+
+                            if (!heading.id) {
+                                heading.id = `heading-${idx}-${heading.textContent.replace(/\s+/g, '-').toLowerCase()}`;
+                            }
+                            const li = document.createElement('li');
+                            li.className = `ml-${(heading.tagName === 'H2' ? 2 : heading.tagName === 'H3' ? 4 : 0)}`;
+                            const a = document.createElement('a');
+                            a.href = `#${heading.id}`;
+                            a.textContent = heading.textContent;
+                            a.className = 'hover:underline text-gray-700 font-medium';
+                            li.appendChild(a);
+                            tocList.appendChild(li);
+                        });
+                    }
+                }
             });
         </script>
     </body>

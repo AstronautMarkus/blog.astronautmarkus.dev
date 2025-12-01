@@ -1,7 +1,6 @@
 ---
 import Navbar from "../components/navbar.astro";
 import Footer from "../components/footer.astro";
-import Scripts from "../components/scripts.astro";
 
 const { 
     title,
@@ -102,43 +101,27 @@ const structuredData = {
             <meta property="article:tag" content={tag} />
         ))}
         
-        <link rel="icon" type="image/svg+xml" href="/favicon.jpg" />
-        <link rel="icon" type="image/png" href="/favicon.jpg" />
-        <link rel="apple-touch-icon" href="/favicon.jpg" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
         
         <meta name="theme-color" content="#3273dc" />
         <meta name="color-scheme" content="light" />
         
         <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-        
-        <style>
-            html, body {
-                height: 100%;
-            }
-            body {
-                display: flex;
-                flex-direction: column;
-            }
-            .main-content {
-                flex: 1;
-            }
-        </style>
     </head>
-    <body>
-        
+    <body class="bg-[#ADADAD]">
         <Navbar />
-
-        <section class="section main-content">
-            <div class="container">
-                <article class="content">
-                    <slot />
-                </article>
-            </div>
-        </section>
-
-        <Footer />
-
-        <Scripts />
+        <div class="flex flex-col min-h-screen">
+            <section class="flex-1">
+                <div>
+                    <article>
+                        <slot />
+                    </article>
+                </div>
+            </section>
+            <Footer />
+        </div>
     </body>
 </html>

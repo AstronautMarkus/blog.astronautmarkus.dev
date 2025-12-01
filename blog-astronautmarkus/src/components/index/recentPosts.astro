@@ -1,0 +1,32 @@
+---
+const blogPosts = await Astro.glob('../../pages/blogs/*.md');
+
+const sortedPosts = blogPosts
+    .filter(post => post.frontmatter?.publishDate)
+    .sort((a, b) => new Date(b.frontmatter.publishDate).getTime() - new Date(a.frontmatter.publishDate).getTime())
+    .slice(0, 5);
+---
+
+<div class="bg-[#c5c1c0] shadow p-4">
+    <h3 class="text-lg font-semibold flex items-center gap-2 mb-4">
+      <i class="hn hn-fire-solid"></i>  Recent Posts
+    </h3>
+    <div>
+        {sortedPosts.length > 0 ? (
+            <ul class="list-disc pl-5 space-y-1">
+                {sortedPosts.map(post => {
+                    const filename = post.file.split('/').pop()?.replace('.md', '');
+                    return (
+                        <li>
+                            <a class="text-blue-600 font-medium hover:underline" href={`/blogs/${filename}`}>
+                                {post.frontmatter.title || filename}
+                            </a>
+                        </li>
+                    );
+                })}
+            </ul>
+        ) : (
+            <p class="text-gray-500">No posts available yet.</p>
+        )}
+    </div>
+</div>
