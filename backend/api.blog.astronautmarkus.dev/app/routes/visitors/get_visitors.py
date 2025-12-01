@@ -19,5 +19,5 @@ def get_visitors():
     return jsonify({
         'visitors_counter': visitors_counter,
         'last_visitor': last_visitor,
-        'countries': countries,
+        'countries': countries if visitors else [],
     })
