@@ -70,7 +70,7 @@ const errorImage = "/img/error-banner.png";
                 <article class="flex">
                     <figure class="flex-shrink-0 mr-4">
                         <img 
-                            class="w-32 h-32 object-cover"
+                            class="h-32 object-cover"
                             src="${post.image || '/img/wip.png'}" 
                             alt="${post.title}"
                             loading="lazy"
@@ -133,7 +133,7 @@ const errorImage = "/img/error-banner.png";
                             ${post.type === 'wip' ? '<div class="mt-3"><span class="inline-block bg-yellow-300 text-yellow-900 px-2 py-1 font-semibold">WIP</span></div>' : ''}
                         </div>
                     </div>
-                    <div class="border-t px-4 py-2">
+                    <div class="px-4 py-2">
                         ${post.type === 'real' ? 
                             `<a href="${post.url}" class="w-full inline-block bg-gray-800 text-white font-semibold px-3 py-1 text-center text-sm">
                                 Read More
