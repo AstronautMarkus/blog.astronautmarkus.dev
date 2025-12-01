@@ -27,6 +27,10 @@ def post_visit():
     if country:
         country = slugify(country)
 
+    country_code = data.get('country_code')
+    if country_code:
+        country_code = country_code.upper()
+
     # Check for previous visit from the same IP
     ip_address = data['ip_address']
     last_visit = Visitor.query.filter_by(ip_address=ip_address).order_by(Visitor.visit_time.desc()).first()
@@ -40,6 +44,7 @@ def post_visit():
         new_visitor = Visitor(
             ip_address=ip_address,
             country=country,
+            country_code=country_code,
             visit_time=now
         )
         db.session.add(new_visitor)
@@ -53,6 +58,7 @@ def post_visit():
         last_visitor = {
             'ip_address': last.ip_address,
             'country': last.country,
+            'country_code': last.country_code,
             'visit_time': last.visit_time.isoformat()
         }
     if should_register:
