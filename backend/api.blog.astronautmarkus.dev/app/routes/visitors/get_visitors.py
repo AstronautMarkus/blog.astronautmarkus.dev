@@ -13,9 +13,11 @@ def get_visitors():
             'ip_address': last.ip_address,
             'country': last.country,
             'visit_time': last.visit_time.isoformat(),
-            'countries': [v.country for v in visitors]
         }
+        countries = [visitor.country for visitor in visitors]
+
     return jsonify({
         'visitors_counter': visitors_counter,
-        'last_visitor': last_visitor
+        'last_visitor': last_visitor,
+        'countries': countries,
     })
