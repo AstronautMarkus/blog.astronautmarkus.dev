@@ -55,12 +55,11 @@ const formatDate = (dateString: string) => {
 };
 
 const tagColors = [
-    'bg-blue-500 text-white',
-    'bg-cyan-500 text-white',
-    'bg-green-500 text-white',
-    'bg-yellow-400 text-black',
-    'bg-red-500 text-white',
-    'bg-indigo-500 text-white'
+    'bg-[#df0024] text-white',
+    'bg-[#f3c300] text-black',
+    'bg-[#00ab9f] text-white',
+    'bg-[#2e6db4] text-white',
+    'bg-[#2e6db4] text-white'
 ];
 
 const structuredData = {
@@ -167,7 +166,10 @@ const structuredData = {
 
         <section class="main-content flex-1 py-8 mt-8">
             <div class="container mx-auto px-4">
-                <div class="flex justify-center">
+                <div class="flex justify-center gap-4">
+
+                    <div class="hidden lg:block w-12"></div>
+                    
                     <div class="w-full max-w-4xl">
                         <article class="markdown-post">
                             <header class="markdown-header mb-8">
@@ -189,7 +191,7 @@ const structuredData = {
                                 {tags && tags.length > 0 && (
                                     <div class="flex flex-wrap gap-2 mb-4">
                                         {tags.map((tag: string, index: number) => (
-                                            <span class={`px-3 py-1 rounded text-xs font-semibold ${tagColors[index % tagColors.length]}`}>{tag}</span>
+                                            <span class={`px-3 py-1 text-xs font-semibold shadow-lg ${tagColors[index % tagColors.length]}`}>{tag}</span>
                                         ))}
                                     </div>
                                 )}
@@ -236,6 +238,13 @@ const structuredData = {
                             </footer>
                         </article>
                     </div>
+                    
+                    <aside class="hidden lg:block w-64 sticky top-24 h-[85vh] overflow-y-auto ml-12 shadow-lg">
+                        <nav id="toc" class="bg-[#c5c1c0] p-4 text-sm">
+                            <h2 class="font-bold mb-2 text-black text-xl">Table of Contents</h2>
+                            <ul id="toc-list" class="space-y-1"></ul>
+                        </nav>
+                    </aside>
                 </div>
             </div>
         </section>
@@ -332,6 +341,30 @@ const structuredData = {
                         }
                     });
                 });
+
+                // TOC generation
+                const tocList = document.getElementById('toc-list');
+                if (tocList) {
+                    const content = document.querySelector('.markdown-content');
+                    if (content) {
+                        const headings = content.querySelectorAll('h1, h2, h3');
+                        tocList.innerHTML = '';
+                        headings.forEach((heading, idx) => {
+
+                            if (!heading.id) {
+                                heading.id = `heading-${idx}-${heading.textContent.replace(/\s+/g, '-').toLowerCase()}`;
+                            }
+                            const li = document.createElement('li');
+                            li.className = `ml-${(heading.tagName === 'H2' ? 2 : heading.tagName === 'H3' ? 4 : 0)}`;
+                            const a = document.createElement('a');
+                            a.href = `#${heading.id}`;
+                            a.textContent = heading.textContent;
+                            a.className = 'hover:underline text-gray-700 font-medium';
+                            li.appendChild(a);
+                            tocList.appendChild(li);
+                        });
+                    }
+                }
             });
         </script>
     </body>
