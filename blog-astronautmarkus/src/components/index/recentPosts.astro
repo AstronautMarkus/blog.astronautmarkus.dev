@@ -7,11 +7,11 @@ const sortedPosts = blogPosts
     .slice(0, 5);
 
 const postColors = [
-    'bg-[#df0024] text-white hover:bg-[#b8001e]',
-    'bg-[#f3c300] text-black hover:bg-[#d1a500]',
-    'bg-[#00ab9f] text-white hover:bg-[#008f85]',
-    'bg-[#2e6db4] text-white hover:bg-[#245290]',
-    'bg-[#2e6db4] text-white hover:bg-[#245290]'
+    'bg-[#3AA640] text-white hover:bg-[#2e7c30]',
+    'bg-[#A8D47A] text-black hover:bg-[#7ba34f]',
+    'bg-[#FFFFFF] text-black hover:bg-[#e0e0e0]',
+    'bg-[#AAAAAA] text-white hover:bg-[#888888]',
+    'bg-[#000000] text-white hover:bg-[#333333]'
 ];
 
 ---
@@ -28,7 +28,7 @@ const postColors = [
                     return (
                         <li>
                             <a
-                                class={`px-2 py-1 ${postColors[index % postColors.length]} text-sm font-medium inline-block`}
+                                class={`px-2 py-1 ${postColors[index % postColors.length]} text-sm font-medium inline-block w-full min-w-[300px] min-h-[56px] flex items-center`}
                                 href={`/blogs/${filename}`}
                             >
                                 {post.frontmatter.title || filename}
