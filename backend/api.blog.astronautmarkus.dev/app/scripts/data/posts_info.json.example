@@ -1,0 +1,11 @@
+[
+    {
+        "id": 1,
+        "title": "Sample Post Title",
+        "description": "This is a sample description for the blog post.",
+        "url": "https://example.com/sample-post",
+        "image_url": "https://example.com/sample-image.jpg",
+        "slug": "sample-post-title",
+        "tags": [""]
+    }
+]
