@@ -46,7 +46,7 @@ def insert_posts(posts_data):
             print(f"Inserted post '{post.title}' with tags {[tag.name for tag in tag_objs]}")
 
 if __name__ == "__main__":
-    json_path = os.path.join(project_root, "app", "scripts", "data", "posts_info.json")
+    json_path = os.path.join(project_root, "app", "data", "posts_info.json")
     if not os.path.exists(json_path):
         print(f"JSON file not found: {json_path}")
         sys.exit(1)

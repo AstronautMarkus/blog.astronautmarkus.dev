@@ -7,6 +7,6 @@ services:
   init-db:
     build: ./
     command: python app/scripts/create_db.py --reset
-  inset-data:
+  insert-data:
     build: ./
     command: python app/scripts/insert_posts_data.py
