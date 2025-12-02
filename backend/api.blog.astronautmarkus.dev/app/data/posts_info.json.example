@@ -1,6 +1,5 @@
 [
     {
-        "id": 1,
         "title": "Sample Post Title",
         "description": "This is a sample description for the blog post.",
         "url": "https://example.com/sample-post",
