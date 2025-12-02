@@ -10,7 +10,7 @@ def slugify(text):
     text = re.sub(r'[^a-z0-9]+', '-', text)
     return text.strip('-')
 
-@visitors_bp.route('/', methods=['POST'])
+@visitors_bp.route('/', methods=['POST'], strict_slashes=False)
 def post_visit():
     if not request.is_json:
         return jsonify({'error': 'Request body must be JSON.'}), 400

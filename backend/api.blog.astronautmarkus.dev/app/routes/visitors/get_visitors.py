@@ -2,7 +2,7 @@ from . import visitors_bp
 from flask import jsonify
 from app.models import Visitor
 
-@visitors_bp.route('/', methods=['GET'])
+@visitors_bp.route('/', methods=['GET'], strict_slashes=False)
 def get_visitors():
     visitors = Visitor.query.order_by(Visitor.visit_time.desc()).all()
     visitors_counter = len(visitors)
