@@ -54,7 +54,67 @@ function formatDigitalCounter(count) {
   }
 }
 
+const isp_api_url = "http://ip-api.com/json/";
+
+function getClientIP() {
+  return axios.get(isp_api_url, { timeout: 5000 })
+    .then(response => response.data.query)
+    .catch(() => 'Unknown');
+}
+
+async function postVisit(apiUrl, slug, ip, user_agent) {
+  try {
+    const response = await axios.post(
+      `${apiUrl}/posts/${slug}/visit`,
+      { ip, user_agent },
+      { timeout: 5000 }
+    );
+    return response;
+  } catch (error) {
+    return null;
+  }
+}
+
+function useRegisterPostVisit(apiUrl, slug) {
+  useEffect(() => {
+    if (!apiUrl || !slug) return;
+
+    const lastVisitRaw = localStorage.getItem(`last_post_visit_${slug}`);
+    let shouldRegister = true;
+
+    if (lastVisitRaw) {
+      try {
+        const lastVisit = JSON.parse(lastVisitRaw);
+        const lastTime = new Date(lastVisit.visit_time).getTime();
+        const now = Date.now();
+        if (now - lastTime < 86400000) {
+          shouldRegister = false;
+        }
+      } catch (e) {
+      }
+    }
+
+    if (shouldRegister) {
+      getClientIP().then(ip => {
+        if (ip !== 'Unknown') {
+          const user_agent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+          postVisit(apiUrl, slug, ip, user_agent).then(response => {
+            if (response && (response.status === 201 || response.status === 200)) {
+              localStorage.setItem(
+                `last_post_visit_${slug}`,
+                JSON.stringify({ visit_time: new Date().toISOString() })
+              );
+            }
+          });
+        }
+      });
+    }
+  }, [apiUrl, slug]);
+}
+
 function PostStats({ API_URL, slug }) {
+  useRegisterPostVisit(API_URL, slug);
+
   const { post, loading, error } = usePostStats(API_URL, slug);
 
   return (
