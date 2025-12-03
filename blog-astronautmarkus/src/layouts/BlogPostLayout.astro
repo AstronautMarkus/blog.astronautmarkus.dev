@@ -3,6 +3,8 @@ import Navbar from "../components/navbar.astro";
 import Footer from "../components/footer.astro";
 import SharePost from "../components/sharePost.astro";
 
+import PostStats from "../components/postStats.jsx";
+
 const { frontmatter } = Astro.props;
 
 const { 
@@ -25,6 +27,12 @@ import "../css/global.css";
 import "../css/markdown.css";
 
 const finalPublishDate = publishDate || pubDate;
+
+const url = Astro.url.pathname;
+
+const slug = url.replace(/^\/|\/$/g, '').replace(/^(posts\/|blogs\/)/, '');
+
+const API_URL = import.meta.env.API_URL
 
 const siteUrl = import.meta.env.SITE_URL || "https://blog.astronautmarkus.dev";
 const siteName = import.meta.env.SITE_NAME || "blog.astronautmarkus.dev";
@@ -240,6 +248,7 @@ const structuredData = {
                     </div>
                     
                     <aside class="hidden lg:block w-64 sticky top-24 h-[85vh] overflow-y-auto ml-12">
+                        <PostStats API_URL={API_URL} slug={slug} client:load />
                         <nav id="toc" class="bg-[#c5c1c0] p-4 text-sm shadow-lg">
                             <h2 class="font-bold mb-2 playstation-fonts text-gray-800 md:text-xl text-center">Table of Contents</h2>
                             <ul id="toc-list" class="space-y-1"></ul>
@@ -254,7 +263,7 @@ const structuredData = {
 
         <script>
             // Image error handling function
-            function handleImageError(img, fallbackSrc) {
+            function handleImageError(img:any, fallbackSrc:any) {
                 if (img.src !== fallbackSrc) {
                     img.src = fallbackSrc;
                     img.onerror = null;
@@ -265,9 +274,11 @@ const structuredData = {
             document.addEventListener('DOMContentLoaded', function() {
                 const contentImages = document.querySelectorAll('.markdown-content img');
                 contentImages.forEach(img => {
-                    img.onerror = function() {
-                        handleImageError(this, '/img/error-banner.png');
-                    };
+                    if (img instanceof HTMLImageElement) {
+                        img.onerror = function() {
+                            handleImageError(this, '/img/error-banner.png');
+                        };
+                    }
                 });
 
                 const codeBlocks = document.querySelectorAll('.markdown-content pre');
