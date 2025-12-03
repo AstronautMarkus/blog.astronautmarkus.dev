@@ -1,9 +1,10 @@
 ---
 import Navbar from "../components/navbar.astro";
 import Footer from "../components/footer.astro";
-import SharePost from "../components/sharePost.astro";
-
+import SharePost from "../components/blog_layout/sharePost.jsx";
 import PostStats from "../components/postStats.jsx";
+import FixImages from "../components/blog_layout/FixImages";
+import TOC from "../components/blog_layout/TOC";
 
 const { frontmatter } = Astro.props;
 
@@ -11,7 +12,6 @@ const {
     title = "Untitled Post",
     description = "No description available.",
     image = "/img/banner-en.png",
-    errorImage = "/img/error-banner.png",
     imageAlt = "Blog Banner Image",
     author = "AstronautMarkus",
     publishDate,
@@ -171,31 +171,26 @@ const structuredData = {
     </head>
     <body class="flex flex-col min-h-screen bg-[#ADADAD] text-gray-900">
         <Navbar />
-
+        
+        <FixImages client:load />
         <section class="main-content flex-1 py-8 mt-8">
             <div class="container mx-auto px-4">
                 <div class="flex justify-center gap-4">
-
                     <div class="hidden lg:block w-12"></div>
-                    
                     <div class="w-full max-w-4xl">
                         <article class="markdown-post">
                             <header class="markdown-header mb-8">
                                 <h1 class="text-4xl font-bold mb-4 mt-12 playstation-fonts text-gray-800">{title}</h1>
-
                                 <div class="markdown-hero-image mb-6">
                                     <figure>
                                         <img 
                                             src={image} 
                                             alt={imageAlt} 
-                                            onerror={`this.src='${errorImage}'; this.onerror=null;`}
                                             class="shadow-lg w-full object-cover"
                                         />
                                     </figure>
                                 </div>
-
                                 <p class="text-lg text-black mb-6 italic">"{description}"</p>
-
                                 {tags && tags.length > 0 && (
                                     <div class="flex flex-wrap gap-2 mb-4">
                                         {tags.map((tag: string, index: number) => (
@@ -203,7 +198,6 @@ const structuredData = {
                                         ))}
                                     </div>
                                 )}
-
                                 <div class="markdown-dates mt-2 space-y-1">
                                     {finalPublishDate ? (
                                         <p class="text-black text-xs">
@@ -221,17 +215,15 @@ const structuredData = {
                                     )}
                                 </div>
                             </header>
-
-                            <div class="content markdown-content prose max-w-none">
+                            <div class="content markdown-content prose max-w-none" id="blog-content">
                                 <slot />
                             </div>
-
                             <SharePost 
                                 title={title}
                                 description={description}
                                 url={canonicalUrl}
+                                client:load
                             />
-
                             <footer class="markdown-author-footer mt-10 pt-6 border-t border-gray-200">
                                 <div class="flex items-center">
                                     <div>
@@ -246,152 +238,16 @@ const structuredData = {
                             </footer>
                         </article>
                     </div>
-                    
                     <aside class="hidden lg:block w-64 sticky top-24 h-[85vh] overflow-y-auto ml-12">
                         <PostStats API_URL={API_URL} slug={slug} client:load />
                         <nav id="toc" class="bg-[#c5c1c0] p-4 text-sm shadow-lg">
                             <h2 class="font-bold mb-2 playstation-fonts text-gray-800 md:text-xl text-center">Table of Contents</h2>
-                            <ul id="toc-list" class="space-y-1"></ul>
+                            <TOC client:load />
                         </nav>
                     </aside>
                 </div>
             </div>
         </section>
-
         <Footer />
-
-
-        <script>
-            // Image error handling function
-            function handleImageError(img:any, fallbackSrc:any) {
-                if (img.src !== fallbackSrc) {
-                    img.src = fallbackSrc;
-                    img.onerror = null;
-                }
-            }
-
-            // Apply error handling to all images in blog content
-            document.addEventListener('DOMContentLoaded', function() {
-                const contentImages = document.querySelectorAll('.markdown-content img');
-                contentImages.forEach(img => {
-                    if (img instanceof HTMLImageElement) {
-                        img.onerror = function() {
-                            handleImageError(this, '/img/error-banner.png');
-                        };
-                    }
-                });
-
-                const codeBlocks = document.querySelectorAll('.markdown-content pre');
-                
-                codeBlocks.forEach((pre, index) => {
-                    const container = document.createElement('div');
-                    container.className = 'relative';
-                    
-                    if (pre.parentNode) {
-                        pre.parentNode.insertBefore(container, pre);
-                        container.appendChild(pre);
-                    }
-                    
-                    const copyButton = document.createElement('button');
-                    copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
-                    copyButton.innerHTML = '<i class="hn hn-paperclip-solid"></i>Copy';
-                    copyButton.setAttribute('aria-label', 'Copy code to clipboard');
-                    copyButton.setAttribute('data-code-index', index.toString());
-                    
-                    container.appendChild(copyButton);
-                    
-                    copyButton.addEventListener('click', async function() {
-                        const code = pre.querySelector('code') || pre;
-                        const textToCopy = code.textContent || '';
-                        
-                        try {
-                            await navigator.clipboard.writeText(textToCopy);
-                            
-                            const originalContent = copyButton.innerHTML;
-                            copyButton.innerHTML = '<i class="hn hn-check-solid"></i>Copied!';
-                            copyButton.classList.add('copied');
-                            copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
-                            setTimeout(() => {
-                                copyButton.innerHTML = originalContent;
-                                copyButton.classList.remove('copied');
-                                copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
-                            }, 2000);
-                            
-                        } catch (err) {
-                            console.error('Failed to copy code: ', err);
-                            
-                            const textArea = document.createElement('textarea');
-                            textArea.value = textToCopy;
-                            textArea.style.position = 'fixed';
-                            textArea.style.left = '-999999px';
-                            document.body.appendChild(textArea);
-                            textArea.focus();
-                            textArea.select();
-                            
-                            try {
-                                document.execCommand('copy');
-                                copyButton.innerHTML = '<i class="hn hn-check-solid"></i>Copied!';
-                                copyButton.classList.add('copied');
-                                copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
-                                setTimeout(() => {
-                                    copyButton.innerHTML = '<i class="hn hn-paperclip-solid"></i>Copy';
-                                    copyButton.classList.remove('copied');
-                                    copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
-                                }, 2000);
-                            } catch (fallbackErr) {
-                                console.error('Fallback copy failed: ', fallbackErr);
-                                copyButton.innerHTML = '<span class="icon">❌</span>Failed';
-                                copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
-                                setTimeout(() => {
-                                    copyButton.innerHTML = '<i class="hn hn-paperclip-solid"></i>Copy';
-                                    copyButton.className = 'bg-[#c5c1c0] hover:bg-gray-200 text-gray-700 px-2 py-1 text-sm ml-auto flex items-center gap-1 transition';
-                                }, 2000);
-                            }
-                            
-                            document.body.removeChild(textArea);
-                        }
-                    });
-                });
-
-                // TOC generation
-                const tocList = document.getElementById('toc-list');
-                if (tocList) {
-                    // Add "Index" link at the top
-                    const indexLi = document.createElement('li');
-                    indexLi.className = 'ml-0';
-                    const indexA = document.createElement('a');
-                    indexA.href = '#';
-                    indexA.textContent = 'Index';
-                    indexA.className = 'hover:underline text-gray-700 font-medium';
-                    indexLi.appendChild(indexA);
-                    tocList.appendChild(indexLi);
-
-                    const content = document.querySelector('.markdown-content');
-                    if (content) {
-                        const headings = content.querySelectorAll('h1, h2, h3');
-                        // Clear previous TOC except the Index
-                        // Remove all except the first child (Index)
-                        while (tocList.children.length > 1) {
-                            if (tocList.lastChild) {
-                                tocList.removeChild(tocList.lastChild);
-                            }
-                        }
-                        headings.forEach((heading, idx) => {
-                            if (!heading.id) {
-                                heading.id = `heading-${idx}-${heading.textContent.replace(/\s+/g, '-').toLowerCase()}`;
-                            }
-                            const li = document.createElement('li');
-                            li.className = `ml-${(heading.tagName === 'H2' ? 2 : heading.tagName === 'H3' ? 4 : 0)}`;
-                            const a = document.createElement('a');
-                            a.href = `#${heading.id}`;
-                            a.textContent = heading.textContent;
-                            a.className = 'hover:underline text-gray-700 font-medium';
-                            li.appendChild(a);
-                            tocList.appendChild(li);
-                        });
-                    }
-                }
-            });
-        </script>
     </body>
 </html>
