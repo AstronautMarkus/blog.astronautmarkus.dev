@@ -29,7 +29,7 @@ function usePostStats(apiUrl, slug) {
         } else if (err.code === 'ECONNABORTED') {
           setError('Request timed out');
         } else {
-          setError('Error fetching post stats');
+          setError('Error loading post stats. Please try again later.');
         }
         setPost(null);
         setLoading(false);

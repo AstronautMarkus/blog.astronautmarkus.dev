@@ -113,7 +113,7 @@ export function useVisitorStats(apiUrl) {
         } else if (error.code === 'ECONNABORTED') {
           setError('Request timed out');
         } else {
-          setError('Error fetching visitor data');
+          setError('Error loading visitor data. Please try again later.');
         }
         setLoading(false);
       });
