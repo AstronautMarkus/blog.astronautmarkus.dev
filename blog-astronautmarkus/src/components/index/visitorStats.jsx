@@ -156,7 +156,7 @@ function VisitorStats({ apiUrl }) {
           <div className="flex items-center gap-2">
             <span className="text-lg">Total Visitors:</span>
             <div
-              className="bg-black text-white font-mono text-2xl px-4 py-2 shadow-lg playstation-fonts"
+              className="bg-black text-white font-mono text-2xl px-4 py-2 shadow-lg playstation-fonts select-none"
               style={{ borderRadius: 0, minWidth: '90px', textAlign: 'center' }}
             >
               {formatDigitalCounter(visitorData?.visitors_counter ?? 0)}
