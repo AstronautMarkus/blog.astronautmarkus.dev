@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 function usePostStats(apiUrl, slug) {
@@ -54,11 +54,11 @@ function formatDigitalCounter(count) {
   }
 }
 
-const isp_api_url = "http://ip-api.com/json/";
+const isp_api_url = "https://ipapi.co/json/";
 
 function getClientIP() {
   return axios.get(isp_api_url, { timeout: 5000 })
-    .then(response => response.data.query)
+    .then(response => response.data.ip)
     .catch(() => 'Unknown');
 }
 

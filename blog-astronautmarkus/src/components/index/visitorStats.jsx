@@ -1,26 +1,26 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const isp_api_url = "http://ip-api.com/json/"
+const isp_api_url = "https://ipapi.co/json/"
 const flags_api_url = "https://flagsapi.com/";
 
 function getClientIPData() {
   return axios.get(isp_api_url, { timeout: 5000 })
     .then(response => ({
-      ip: response.data.query,
-      country: response.data.country,
-      countryCode: response.data.countryCode,
+      ip: response.data.ip,
+      country: response.data.country_name,
+      countryCode: response.data.country_code,
       region: response.data.region,
-      regionName: response.data.regionName,
+      regionName: response.data.region,
       city: response.data.city,
-      zip: response.data.zip,
-      lat: response.data.lat,
-      lon: response.data.lon,
+      zip: response.data.postal,
+      lat: response.data.latitude,
+      lon: response.data.longitude,
       timezone: response.data.timezone,
-      isp: response.data.isp,
+      isp: response.data.org,
       org: response.data.org,
-      as: response.data.as,
-      status: response.data.status,
+      as: response.data.asn,
+      status: 'success',
     }))
     .catch(() => ({ ip: 'Unknown' }));
 }
