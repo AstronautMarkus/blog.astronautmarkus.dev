@@ -165,7 +165,11 @@ function VisitorStats({ apiUrl }) {
           
           {visitorData?.countries?.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-4 items-center">
-              {visitorData.countries.map((country) => (
+              {Array.from(
+                new Map(
+                  visitorData.countries.map(c => [c.country_code, c])
+                ).values()
+              ).map((country) => (
                 <img
                   key={country.country_code}
                   src={`${flags_api_url}${country.country_code}/flat/64.png`}
