@@ -356,12 +356,27 @@ const structuredData = {
                 // TOC generation
                 const tocList = document.getElementById('toc-list');
                 if (tocList) {
+                    // Add "Index" link at the top
+                    const indexLi = document.createElement('li');
+                    indexLi.className = 'ml-0';
+                    const indexA = document.createElement('a');
+                    indexA.href = '#';
+                    indexA.textContent = 'Index';
+                    indexA.className = 'hover:underline text-gray-700 font-medium';
+                    indexLi.appendChild(indexA);
+                    tocList.appendChild(indexLi);
+
                     const content = document.querySelector('.markdown-content');
                     if (content) {
                         const headings = content.querySelectorAll('h1, h2, h3');
-                        tocList.innerHTML = '';
+                        // Clear previous TOC except the Index
+                        // Remove all except the first child (Index)
+                        while (tocList.children.length > 1) {
+                            if (tocList.lastChild) {
+                                tocList.removeChild(tocList.lastChild);
+                            }
+                        }
                         headings.forEach((heading, idx) => {
-
                             if (!heading.id) {
                                 heading.id = `heading-${idx}-${heading.textContent.replace(/\s+/g, '-').toLowerCase()}`;
                             }
